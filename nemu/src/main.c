@@ -42,12 +42,15 @@ void debug_expression()
     char *line = 0;
     size_t read;
     size_t len;
+    int num_lines=0;
     printf("read file success\n");
     while ((read = getline(line, &len, fp)) != -1)
     {
-    printf("read file success\n");
-      printf("line:%s\n",line);
+      printf("read file success\n");
+      printf("line:%s\n", line);
+      num_lines++;
     }
+      printf("num lines:%d\n", num_lines);
 
     if (line)
     {
