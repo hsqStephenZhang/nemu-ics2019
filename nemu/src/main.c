@@ -42,7 +42,7 @@ void debug_expression()
     int read;
     int len;
     printf("read file success\n");
-    while ((read = getline(&line, &len, fp)) != -1) {
+    while ((read = getline(line, &len, fp)) != -1) {
         printf("Retrieved line of length %zu:\n", read);
         printf("%s", line);
     }
