@@ -78,6 +78,8 @@ static bool make_token(char *e) {
 
   nr_token = 0;
 
+  LOG("makeing token...");
+
   while (e[position] != '\0') {
     /* Try all rules one by one. */
     for (i = 0; i < NR_REGEX; i ++) {
