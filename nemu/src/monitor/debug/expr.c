@@ -96,14 +96,9 @@ static bool make_token(char *e)
         char *substr_start = e + position;
         int substr_len = pmatch.rm_eo;
 
-        Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
-            i, rules[i].regex, position, substr_len, substr_len, substr_start);
+        // Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
+        //     i, rules[i].regex, position, substr_len, substr_len, substr_start);
         position += substr_len;
-
-        /* TODO: Now a new token is recognized with rules[i]. Add codes
-         * to record the token in the array `tokens'. For certain types
-         * of tokens, some extra actions should be performed.
-         */
 
         switch (rules[i].token_type)
         {
@@ -148,21 +143,20 @@ uint32_t expr(char *e, bool *success)
     return 0;
   }
 
-  // Log("eval expression...");
+  Log("eval expression...");
 
-  /* TODO: Insert codes to evaluate the expression. */
-  // for (int i = 0; i < nr_token; i++)
-  // {
-  //   printf("%d", tokens[i].type);
-  //   if (tokens[i].type == TK_DECI_NUM || tokens[i].type == TK_HEX_NUM || tokens[i].type == TK_REG)
-  //   {
-  //     printf("%s\n", tokens[i].str);
-  //   }
-  //   else
-  //   {
-  //     printf("\n");
-  //   }
-  // }
+  for (int i = 0; i < nr_token; i++)
+  {
+    printf("%d", tokens[i].type);
+    if (tokens[i].type == TK_DECI_NUM || tokens[i].type == TK_HEX_NUM || tokens[i].type == TK_REG)
+    {
+      printf("%s\n", tokens[i].str);
+    }
+    else
+    {
+      printf("\n");
+    }
+  }
 
   return 0;
 }
