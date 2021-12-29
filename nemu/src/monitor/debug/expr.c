@@ -36,8 +36,8 @@ static struct rule {
   {"&&", TK_AND},       // and &&
   {"\\(", '('},
   {"\\)", ')'},
-  {"0x[0-9a-f]+", TK_HEX_NUM},       // hex nums
-  {"[0-9]+", TK_DECI_NUM},           // decimal nums
+  {"0x[0-9a-f]+U", TK_HEX_NUM},       // hex nums
+  {"[0-9]+U", TK_DECI_NUM},           // decimal nums
   {"[\\$][a-zA-Z0-9]{1,3}", TK_REG}, // the length of the reg's name should be 2 or 3
 };
 
