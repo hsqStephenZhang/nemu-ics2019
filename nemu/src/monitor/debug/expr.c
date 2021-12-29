@@ -163,6 +163,7 @@ bool check_parentheses(int p, int q)
     }
     else if (count == 0)
     {
+      Log("i is equal to q?: ",i==q);
       return i == q;
     }
   }
