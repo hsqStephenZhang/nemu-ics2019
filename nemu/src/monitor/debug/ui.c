@@ -115,6 +115,7 @@ static int cmd_info(char *args)
     {
       reg_name += 1;
     }
+  printf("args: %s\n", reg_name);
     isa_reg_display_reg(reg_name);
   }
   else
