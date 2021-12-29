@@ -46,7 +46,10 @@ static int cmd_help(char *args);
 
 static int cmd_si(char *args)
 {
-  int num_steps = atoi(args);
+  int num_steps=1;
+  if (args!=NULL){
+    num_steps = atoi(args);
+  }
   Log("%d",num_steps);
   if (num_steps == 0)
   {
