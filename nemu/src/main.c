@@ -7,6 +7,7 @@ int main(int argc, char *argv[])
 {
 #ifdef DEBUG_EXPR
   void debug_expression();
+  void init_regex();
   init_regex();
   debug_expression();
 #else
