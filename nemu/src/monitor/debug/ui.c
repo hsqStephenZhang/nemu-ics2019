@@ -61,11 +61,11 @@ static int cmd_si(char *args)
 static int cmd_info(char *args)
 {
   if (strcasecmp(args, "r")==0){
-    printf("info r\n");
+    isa_reg_display();
   }else if (strcasecmp(args, "w")==0){
     printf("info w\n");
   }else{
-    printf("info unkown\n");
+    printf("info unknown\n");
   }
 
   return 0;
