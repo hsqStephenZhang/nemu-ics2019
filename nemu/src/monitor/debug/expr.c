@@ -213,6 +213,7 @@ int locate_op(int p, int q, bool *success)
     {
       return -1;
     }
+
     if (tokens[i].type == '&&' && lowest_priority >= 1)
     {
       lowest_priority = 1;
@@ -387,6 +388,8 @@ uint32_t expr(char *e, bool *success)
     }
   }
 
+  #define DEBUG_PRINT_EXPR_TOKENS
+
 #ifdef DEBUG_PRINT_EXPR_TOKENS
 
   for (int i = 0; i < nr_token; i++)
@@ -398,14 +401,6 @@ uint32_t expr(char *e, bool *success)
     else
     {
       printf("token%d: %c \n", i, tokens[i].type);
-    }
-    if (tokens[i].type == '(')
-    {
-      debug_l++;
-    }
-    else if (tokens[i].type == ')')
-    {
-      debug_r++;
     }
   }
 
