@@ -349,6 +349,7 @@ uint32_t eval(int p, int q, bool *success)
     case TK_NTEQ:
       return val1 != val2;
     case TK_AND:
+      Log("%d && %d", val1, val2);
       return val1 && val2;
     default:
       Log("unknown operation");
