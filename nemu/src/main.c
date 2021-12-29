@@ -45,7 +45,7 @@ void debug_expression()
     {
       int val;
       char buffer[1024 * 1024] = {0};
-      sscanf(line, "%u %[^\n]", &val, &buffer);
+      sscanf(line, "%u %[^\n]", &val, buffer);
       printf("result: %u, expression: %s\n", val, buffer);
       char flag;
       unsigned ans = expr(buffer, &flag);
@@ -60,30 +60,6 @@ void debug_expression()
 
     fclose(fp);
   }
-
-  // #define NUM_LINES 100
-
-  //   FILE *fp = fopen("tools/gen-expr/input", "r");
-  //   char expression[70000];
-  //   char *str;
-  //   for (int i = 0; i < NUM_LINES; i++)
-  //   {
-  //     char flag = 1;
-
-  //     expression[0] = '\0';
-  //     fgets(expression, 70000, fp);
-  //     unsigned answer = 0, ans;
-  //     str = strtok(expression, " ");
-  //     sscanf(expression, "%u", &answer);
-  //     str = expression + strlen(expression) + 1;
-  //     printf("str:%s\n",str);
-  //     ans = expr(str, &flag);
-  //     if (answer != ans)
-  //       printf("%d Wrong\n", i);
-  //     else
-  //       printf("correct %d\n", i);
-
-  //   }
 }
 
-#endif // DEBUG
+#endif
