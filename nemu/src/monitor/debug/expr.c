@@ -394,7 +394,7 @@ uint32_t expr(char *e, bool *success)
 
   for (int i = 0; i < nr_token; i++)
   {
-    if (tokens[i].type == TK_DECI_NUM || tokens[i].type == TK_HEX_NUM || tokens[i].type == TK_REG)
+    if (tokens[i].type == TK_DECI_NUM || tokens[i].type == TK_HEX_NUM || tokens[i].type == TK_REG || tokens[i].type == TK_EQ || tokens[i].type == TK_NTEQ || tokens[i].type == TK_AND)
     {
       printf("token%d: %d %s\n", i, tokens[i].type, tokens[i].str);
     }
