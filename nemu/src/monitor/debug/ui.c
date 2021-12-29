@@ -36,6 +36,13 @@ static int cmd_c(char *args)
   return 0;
 }
 
+static int cmd_q(char *args)
+{
+  return -1;
+}
+
+static int cmd_help(char *args);
+
 static int cmd_si(char *args)
 {
   int num_steps = atoi(args);
@@ -51,12 +58,19 @@ static int cmd_si(char *args)
   return 0;
 }
 
-static int cmd_q(char *args)
+static int cmd_info(char *args)
 {
-  return -1;
+  if (strcasecmp(args, "r")==0){
+    printf("info r\n");
+  }else if (strcasecmp(args, "w")==0){
+    printf("info w\n");
+  }else{
+    printf("info unkown\n");
+  }
+
+  return 0;
 }
 
-static int cmd_help(char *args);
 
 static struct
 {
@@ -66,8 +80,10 @@ static struct
 } cmd_table[] = {
     {"help", "Display informations about all supported commands", cmd_help},
     {"c", "Continue the execution of the program", cmd_c},
-    {"si", "Single step the program", cmd_si},
     {"q", "Exit NEMU", cmd_q},
+    {"si", "Single step the program", cmd_si},
+    {"info", "info about the monitor", cmd_info},
+    {"i", "info about the monitor", cmd_info},
 
     /* TODO: Add more commands */
 
