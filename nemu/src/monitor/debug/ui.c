@@ -99,7 +99,6 @@ static int cmd_info(char *args)
     info r xxx: infos about certain register\n\
     ");
   }
-  printf("args: %s\n", args);
   if (strcasecmp(args, "r") == 0)
   {
     isa_reg_display();
@@ -115,7 +114,6 @@ static int cmd_info(char *args)
     {
       reg_name += 1;
     }
-  printf("args: %s\n", reg_name);
     isa_reg_display_reg(reg_name);
   }
   else
