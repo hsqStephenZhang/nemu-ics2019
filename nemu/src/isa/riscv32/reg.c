@@ -24,7 +24,8 @@ void isa_reg_display_reg(char *reg)
   {
     if (strcmp(reg, reg_l(i)) == 0)
     {
-      printf("%-3s = 0x%08x\n", regsl[i], reg_l(i));
+      // printf("%-3s = 0x%08x\n", regsl[i], reg_l(i));
+      printf("hello world!");
       return;
     }
   }
