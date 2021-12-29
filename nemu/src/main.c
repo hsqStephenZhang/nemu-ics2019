@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 }
 
 #ifdef DEBUG_EXPR
-#define _GNU_SOURCE
+#define __USE_GNU
 
 #include <stdio.h>
 #include <stdlib.h>
