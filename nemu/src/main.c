@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
 }
 
 #ifdef DEBUG_EXPR
+#define _GNU_SOURCE
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -43,7 +44,7 @@ void debug_expression()
     int len;
     printf("read file success\n");
     while ((read = getline(line, &len, fp)) != -1) {
-        printf("Retrieved line of length %zu:\n", read);
+        printf("Retrieved line of length %%d:\n", read);
         printf("%s", line);
     }
 
