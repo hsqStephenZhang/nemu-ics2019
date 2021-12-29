@@ -47,6 +47,7 @@ static int cmd_help(char *args);
 static int cmd_si(char *args)
 {
   int num_steps = atoi(args);
+  Log("%d",num_steps);
   if (num_steps == 0)
   {
     cpu_exec(1);
