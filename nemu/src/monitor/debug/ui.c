@@ -84,7 +84,7 @@ static int cmd_expr(char *args)
 {
   bool success = true;
   uint8_t res = expr(args, &success);
-  printf("result is %u", res);
+  printf("result is %u\n", res);
   return 0;
 }
 
