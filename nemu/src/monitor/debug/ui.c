@@ -61,6 +61,7 @@ static int cmd_si(char *args)
 static int cmd_info(char *args)
 {
   if (strcasecmp(args, "r")==0){
+    void isa_reg_display();
     isa_reg_display();
   }else if (strcasecmp(args, "w")==0){
     printf("info w\n");
