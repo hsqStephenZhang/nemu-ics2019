@@ -9,6 +9,7 @@
 
 void cpu_exec(uint64_t);
 void isa_reg_display();
+void isa_reg_display_reg(char *);
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char *rl_gets()
@@ -90,6 +91,14 @@ static int cmd_expr(char *args)
 
 static int cmd_info(char *args)
 {
+  if (args == NULL)
+  {
+    printf("usage:\n \
+    info w: infos about watchpoint\n\
+    info r: infos about registers\n\
+    info r xxx: infos about certain register\n\
+    ");
+  }
   if (strcasecmp(args, "r") == 0)
   {
     isa_reg_display();
@@ -97,6 +106,15 @@ static int cmd_info(char *args)
   else if (strcasecmp(args, "w") == 0)
   {
     print_wps();
+  }
+  else if (args[0] == 'r' && args[1] == ' ')
+  {
+    char *reg_name = args + 2;
+    while (reg_name != NULL && reg_name == ' ')
+    {
+      reg_name += 1;
+    }
+    isa_reg_display_reg(reg_name);
   }
   else
   {

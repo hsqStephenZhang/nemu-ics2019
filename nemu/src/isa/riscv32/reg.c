@@ -17,6 +17,21 @@ void isa_reg_display()
   printf("%-3s = 0x%08x\n", "pc", cpu.pc);
 }
 
+void isa_reg_display_reg(char *reg)
+{
+  for (int i = 0; i < NUM_REGS; i++)
+  {
+    if (strcmp(reg, reg_l(i)) == 0)
+    {
+      printf("%-3s = 0x%08x\n", regsl[i], reg_l(i));
+    }
+  }
+  if (strcmp(reg, "pc") == 0 || strcmp(reg, "rip") == 0 || strcmp(reg, "ip") == 0)
+  {
+    printf("%-3s = 0x%08x\n", "pc", cpu.pc);
+  }
+}
+
 uint32_t isa_reg_str2val(const char *s, bool *success)
 {
   for (int i = 0; i < NUM_REGS; i++)
