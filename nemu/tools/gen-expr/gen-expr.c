@@ -112,7 +112,7 @@ int main(int argc, char *argv[])
     sscanf(argv[1], "%d", &loop);
   }
   int i;
-  for (i = 0; i < loop; i++)
+  for (i = 0; i < loop;)
   {
     buf[0] = '\0';
     code_buf[0] = '\0';
@@ -127,7 +127,8 @@ int main(int argc, char *argv[])
     fputs(code_buf, fp);
     fclose(fp);
 
-    int ret = system("gcc /tmp/.code.c -o /tmp/.expr");
+    // add -Werror flags, to avoid div by zero error
+    int ret = system("gcc -Werror /tmp/.code.c -o /tmp/.expr");
     if (ret != 0)
       continue;
 
@@ -139,6 +140,9 @@ int main(int argc, char *argv[])
     pclose(fp);
 
     printf("%u %s\n", result, buf);
+    
+    // if we generate the code successfully, increment i by 1
+    i++;
   }
   return 0;
 }
