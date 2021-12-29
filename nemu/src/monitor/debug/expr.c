@@ -322,11 +322,11 @@ uint32_t expr(char *e, bool *success)
   {
     if (tokens[i].type == TK_DECI_NUM || tokens[i].type == TK_HEX_NUM || tokens[i].type == TK_REG)
     {
-      printf("%c %s\n", tokens[i].type, tokens[i].str);
+      printf("token%d: %d %s\n", i, tokens[i].type, tokens[i].str);
     }
     else
     {
-      printf("line%d: %c \n", i, tokens[i].type);
+      printf("token%d: %c \n", i, tokens[i].type);
     }
   }
 
