@@ -45,7 +45,7 @@ void debug_expression()
     {
       int val;
       char buffer[1024 * 1024] = {0};
-      scanf(line, "%u %s\n", &val, &buffer);
+      sscanf(line, "%u %s\n", &val, &buffer);
       printf("%d\n", val);
       num_lines++;
     }
