@@ -318,6 +318,7 @@ uint32_t expr(char *e, bool *success)
 
   Log("eval expression...");
 
+  int debug_l =0, debug_r = 0;
   for (int i = 0; i < nr_token; i++)
   {
     if (tokens[i].type == TK_DECI_NUM || tokens[i].type == TK_HEX_NUM || tokens[i].type == TK_REG)
@@ -328,7 +329,18 @@ uint32_t expr(char *e, bool *success)
     {
       printf("token%d: %c \n", i, tokens[i].type);
     }
+    if (tokens[i].type == '(')
+    {
+      debug_l++;
+    }
+    else if (tokens[i].type == ')')
+    {
+      debug_r++;
+    }
   }
+
+
+  Log("left right count: %d %d", debug_l, debug_r);
 
   // printf("%c %s\n", tokens[13].type, tokens[13].str);
   // printf("%c %s\n", tokens[89].type, tokens[89].str);
