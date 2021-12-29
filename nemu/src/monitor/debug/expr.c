@@ -158,6 +158,7 @@ bool check_parentheses(int p, int q)
 
     if (count < 0)
     {
+      Log("count is less than zero");
       return false;
     }
     else if (count == 0)
@@ -165,7 +166,7 @@ bool check_parentheses(int p, int q)
       return i == q;
     }
   }
-
+  Log("count: %d", count);
   return count == 0;
 }
 
