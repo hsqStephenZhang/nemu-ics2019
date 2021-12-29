@@ -153,18 +153,18 @@ uint32_t expr(char *e, bool *success)
   // Log("eval expression...");
 
   /* TODO: Insert codes to evaluate the expression. */
-  for (int i = 0; i < nr_token; i++)
-  {
-    printf("%d", tokens[i].type);
-    if (tokens[i].type == TK_DECI_NUM || tokens[i].type == TK_HEX_NUM || tokens[i].type == TK_REG)
-    {
-      printf("%s\n", tokens[i].str);
-    }
-    else
-    {
-      printf("\n");
-    }
-  }
+  // for (int i = 0; i < nr_token; i++)
+  // {
+  //   printf("%d", tokens[i].type);
+  //   if (tokens[i].type == TK_DECI_NUM || tokens[i].type == TK_HEX_NUM || tokens[i].type == TK_REG)
+  //   {
+  //     printf("%s\n", tokens[i].str);
+  //   }
+  //   else
+  //   {
+  //     printf("\n");
+  //   }
+  // }
 
   return 0;
 }
