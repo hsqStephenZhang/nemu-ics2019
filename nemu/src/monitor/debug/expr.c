@@ -19,8 +19,6 @@ enum
   TK_HEX_NUM,  // 十六进制数字
   TK_REG,      // 寄存器
   TK_DEREF,    // 解引用
-  TK_NTEQ,     // 不等于
-  TK_AND,      // &&
 };
 
 static struct rule
@@ -159,12 +157,10 @@ bool check_parentheses(int p, int q)
 
     if (count < 0)
     {
-      // Log("count is less than zero");
       return false;
     }
     else if (count == 0)
     {
-      // Log("check result: %d %d", i, q);
       return i == q;
     }
   }
