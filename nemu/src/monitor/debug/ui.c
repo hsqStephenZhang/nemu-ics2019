@@ -46,11 +46,12 @@ static int cmd_help(char *args);
 
 static int cmd_si(char *args)
 {
-  int num_steps=1;
-  if (args!=NULL){
+  int num_steps = 1;
+  if (args != NULL)
+  {
     num_steps = atoi(args);
   }
-  Log("%d",num_steps);
+  Log("%d", num_steps);
   if (num_steps == 0)
   {
     cpu_exec(1);
@@ -63,19 +64,47 @@ static int cmd_si(char *args)
   return 0;
 }
 
+static int cmd_new_wp(char *args)
+{
+  if (!new_wp(args))
+  {
+    Log("cmd_setwp: 监视点创建失败\n");
+    return -1;
+  }
+  return 0;
+}
+// 移除监视点
+static int cmd_rm_wp(char *args)
+{
+  rm_wp(strtol(args, NULL, 10));
+  return 0;
+}
+
+static int cmd_expr(char *args)
+{
+  bool success = true;
+  uint8_t res = expr(args, &success);
+  printf("result is %u", res);
+  return 0;
+}
+
 static int cmd_info(char *args)
 {
-  if (strcasecmp(args, "r")==0){
+  if (strcasecmp(args, "r") == 0)
+  {
     isa_reg_display();
-  }else if (strcasecmp(args, "w")==0){
+  }
+  else if (strcasecmp(args, "w") == 0)
+  {
     print_wps();
-  }else{
+  }
+  else
+  {
     printf("info unknown, TODO\n");
   }
 
   return 0;
 }
-
 
 static struct
 {
@@ -88,7 +117,9 @@ static struct
     {"q", "Exit NEMU", cmd_q},
     {"si", "Single step the program", cmd_si},
     {"info", "info about the monitor", cmd_info},
-    {"i", "info about the monitor", cmd_info},
+    {"w", "new watchpoint", cmd_new_wp},
+    {"d", "remove watchpoint", cmd_rm_wp},
+    {"p", "Evaluate given expression", cmd_expr},
 
     /* TODO: Add more commands */
 
