@@ -34,10 +34,20 @@ void debug_expression()
   if (fp == NULL)
   {
     printf("read file failed\n");
+    exit(-1);
   }
   else
   {
+    char line[1024];
+    int read;
+    int len;
     printf("read file success\n");
+    while ((read = getline(&line, &len, fp)) != -1) {
+        printf("Retrieved line of length %zu:\n", read);
+        printf("%s", line);
+    }
+
+    fclose(fp);
   }
 }
 
