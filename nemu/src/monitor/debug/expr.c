@@ -219,7 +219,7 @@ int locate_op(int p, int q, bool *success)
       lowest_priority = 1;
       lowest_priority_index = i;
     }
-    else if (tokens[i].type == TK_EQ || tokens[i].type == TK_NTEQ && lowest_priority >= 2)
+    else if ((tokens[i].type == TK_EQ || tokens[i].type == TK_NTEQ) && lowest_priority >= 2)
     {
       if (lowest_priority != 1)
       {
@@ -227,12 +227,12 @@ int locate_op(int p, int q, bool *success)
         lowest_priority_index = i;
       }
     }
-    else if (tokens[i].type == '+' || tokens[i].type == '-' && lowest_priority >= 3)
+    else if ((tokens[i].type == '+' || tokens[i].type == '-') && lowest_priority >= 3)
     {
       lowest_priority = 3;
       lowest_priority_index = i;
     }
-    else if (tokens[i].type == '*' || tokens[i].type == '/' && lowest_priority >= 4)
+    else if ((tokens[i].type == '*' || tokens[i].type == '/') && lowest_priority >= 4)
     {
       lowest_priority = 4;
       lowest_priority_index = i;
@@ -388,7 +388,7 @@ uint32_t expr(char *e, bool *success)
     }
   }
 
-  #define DEBUG_PRINT_EXPR_TOKENS
+#define DEBUG_PRINT_EXPR_TOKENS
 
 #ifdef DEBUG_PRINT_EXPR_TOKENS
 
