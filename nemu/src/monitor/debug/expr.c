@@ -9,6 +9,8 @@
 
 uint32_t isa_reg_str2val(const char *, bool *);
 
+#define U32_MAX -1U
+
 enum
 {
   TK_NOTYPE = 256,
@@ -133,7 +135,7 @@ static bool make_token(char *e)
 }
 
 // check if a expression matches a pair of parentheses
-bool check_parentheses(int p, int q)
+bool check_parentheses(int p, int q, bool *success)
 {
   int count = 0;
   for (int i = p + 1; i <= q - 1; i++)
@@ -149,9 +151,12 @@ bool check_parentheses(int p, int q)
 
     if (count < 0)
     {
+      *success = false;
       return false;
     }
   }
+
+  *success = (count == 0);
 
   return count == 0;
 }
@@ -169,39 +174,43 @@ uint32_t eval(int p, int q, bool *success)
   if (p > q)
   {
     /* Bad expression */
-    return -1;
+    return U32_MAX;
   }
   else if (p == q)
   {
     if (tokens[p].type == TK_HEX_NUM)
     {
-       return strtol(tokens[p].str, NULL, 16);
+      return strtol(tokens[p].str, NULL, 16);
     }
     else if (tokens[p].type == TK_DECI_NUM)
     {
-       return strtol(tokens[p].str, NULL, 10);
+      return strtol(tokens[p].str, NULL, 10);
     }
     else if (tokens[p].type == TK_REG)
     {
-       uint32_t reg_val = isa_reg_str2val(tokens[p].str, success);
-       if (*success){
-         return reg_val;
-       }
-       return -1;
-    }else {
+      uint32_t reg_val = isa_reg_str2val(tokens[p].str, success);
+      if (*success)
+      {
+        return reg_val;
+      }
+      return U32_MAX;
+    }
+    else
+    {
       TODO();
     }
   }
-  else if ((tokens[p].type == '(' && tokens[q].type == ')') && check_parentheses(p, q) == true)
+  else if ((tokens[p].type == '(' && tokens[q].type == ')') && check_parentheses(p, q, success) == true)
   {
     return eval(p + 1, q - 1, success);
   }
   else
   {
-    // if (*success==false){
-    //   Log("check parentheses failed");
-    //   return -1;
-    // }
+    if (*success == false)
+    {
+      Log("check parentheses failed");
+      return U32_MAX;
+    }
     // op = the position of 主运算符 in the token expression;
     int op = 1;
     uint32_t val1 = eval(p, op - 1, success);
@@ -221,14 +230,15 @@ uint32_t eval(int p, int q, bool *success)
       if (val2 == 0)
       {
         Log("divide by zero error");
-        return -1;
+        return U32_MAX;
       }
       else
       {
         return val1 / val2;
       }
     }
-    default: panic("unknown operation");
+    default:
+      panic("unknown operation");
     }
   }
 }
