@@ -37,7 +37,7 @@ static struct rule
     {"\\)", ')'},
     {"==", TK_EQ},                     // equal
     {"!=", TK_NTEQ},                   // not equal
-    {"&&", TK_AND},                    // and &&
+    {"&&", TK_AND},                    // and
     {"0x[0-9a-f]+U", TK_HEX_NUM},      // hex nums
     {"0x[0-9a-f]+", TK_HEX_NUM},       // hex nums, ignore the 'U'
     {"[0-9]+U", TK_DECI_NUM},          // decimal nums
