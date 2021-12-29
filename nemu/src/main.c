@@ -40,11 +40,11 @@ void debug_expression()
   else
   {
     char line[1024];
-    int read;
-    int len;
+    size_t read;
+    size_t len;
     printf("read file success\n");
     while ((read = getline(line, &len, fp)) != -1) {
-        printf("Retrieved line of length %%d:\n", read);
+        printf("Retrieved line of length %d:\n", read);
         printf("%s", line);
     }
 
