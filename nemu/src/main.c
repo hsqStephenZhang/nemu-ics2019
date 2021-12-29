@@ -28,57 +28,57 @@ int main(int argc, char *argv[])
 
 void debug_expression()
 {
-  // FILE *fp = fopen("/home/zc/ics2019/nemu/tools/gen-expr/input", "r");
-  // if (fp == NULL)
-  // {
-  //   printf("read file failed\n");
-  //   exit(-1);
-  // }
-  // else
-  // {
-  //   char *line = NULL;
-  //   size_t read;
-  //   size_t len;
-  //   int num_lines = 0;
-  //   printf("read file success\n");
-  //   while ((read = getline(line, &len, fp)) != -1)
-  //   {
-  //     printf("line:%s\n", line);
-  //     num_lines++;
-  //   }
-  //   printf("num lines:%d\n", num_lines);
-
-  //   if (line)
-  //   {
-  //     free(line);
-  //   }
-
-  //   fclose(fp);
-  // }
-
-#define NUM_LINES 100
-
-  FILE *fp = fopen("tools/gen-expr/input", "r");
-  char expression[70000];
-  char *str;
-  for (int i = 0; i < NUM_LINES; i++)
+  FILE *fp = fopen("/home/zc/ics2019/nemu/tools/gen-expr/input", "r");
+  if (fp == NULL)
   {
-    char flag = 1;
-
-    expression[0] = '\0';
-    fgets(expression, 70000, fp);
-    unsigned answer = 0, ans;
-    str = strtok(expression, " ");
-    sscanf(expression, "%u", &answer);
-    str = expression + strlen(expression) + 1;
-    printf("str:%s\n",str);
-    ans = expr(str, &flag);
-    if (answer != ans)
-      printf("%d Wrong\n", i);
-    else
-      printf("correct %d\n", i);
-    
+    printf("read file failed\n");
+    exit(-1);
   }
+  else
+  {
+    char *line = NULL;
+    size_t read;
+    size_t len;
+    int num_lines = 0;
+    printf("read file success\n");
+    while ((read = getline(line, &len, fp)) != -1)
+    {
+      printf("line:%s\n", line);
+      num_lines++;
+    }
+    printf("num lines:%d\n", num_lines);
+
+    if (line)
+    {
+      free(line);
+    }
+
+    fclose(fp);
+  }
+
+// #define NUM_LINES 100
+
+//   FILE *fp = fopen("tools/gen-expr/input", "r");
+//   char expression[70000];
+//   char *str;
+//   for (int i = 0; i < NUM_LINES; i++)
+//   {
+//     char flag = 1;
+
+//     expression[0] = '\0';
+//     fgets(expression, 70000, fp);
+//     unsigned answer = 0, ans;
+//     str = strtok(expression, " ");
+//     sscanf(expression, "%u", &answer);
+//     str = expression + strlen(expression) + 1;
+//     printf("str:%s\n",str);
+//     ans = expr(str, &flag);
+//     if (answer != ans)
+//       printf("%d Wrong\n", i);
+//     else
+//       printf("correct %d\n", i);
+    
+//   }
 }
 
 #endif // DEBUG
