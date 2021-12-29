@@ -177,6 +177,7 @@ int locate_op(int p, int q, bool *success)
   int lowest_priority = 0;
   for (int i = p; i <= q;)
   {
+    // find the matches parentheses
     if (tokens[i].type == '(')
     {
       int count = 1;
@@ -190,7 +191,6 @@ int locate_op(int p, int q, bool *success)
         {
           count++;
         }
-        // Log("当前count = %d\n", count);
         if (count == 0)
         {
           break;
