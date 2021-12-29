@@ -164,6 +164,7 @@ bool check_parentheses(int p, int q)
     }
     else if (count == 0)
     {
+      Log("check result: %d %d", i, q);
       return i == q;
     }
   }
@@ -318,7 +319,7 @@ uint32_t expr(char *e, bool *success)
 
   Log("eval expression...");
 
-  int debug_l =0, debug_r = 0;
+  int debug_l = 0, debug_r = 0;
   for (int i = 0; i < nr_token; i++)
   {
     if (tokens[i].type == TK_DECI_NUM || tokens[i].type == TK_HEX_NUM || tokens[i].type == TK_REG)
@@ -338,7 +339,6 @@ uint32_t expr(char *e, bool *success)
       debug_r++;
     }
   }
-
 
   Log("left right count: %d %d", debug_l, debug_r);
 
