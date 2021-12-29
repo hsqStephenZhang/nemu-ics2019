@@ -39,12 +39,18 @@ void debug_expression()
   }
   else
   {
-    char line[65536];
+    char *line = 0;
     size_t read;
     size_t len;
     printf("read file success\n");
-    while ((read = getline(line, &len, fp)) != -1) {
-        printf("Retrieved line of length %d:\n %s", read, line);
+    while ((read = getline(line, &len, fp)) != -1)
+    {
+      printf("line:%s\n",line);
+    }
+
+    if (line)
+    {
+      free(line);
     }
 
     fclose(fp);
