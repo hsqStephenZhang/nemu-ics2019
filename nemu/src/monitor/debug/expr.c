@@ -318,14 +318,13 @@ uint32_t expr(char *e, bool *success)
 
   for (int i = 0; i < nr_token; i++)
   {
-    printf("%c", tokens[i].type);
     if (tokens[i].type == TK_DECI_NUM || tokens[i].type == TK_HEX_NUM || tokens[i].type == TK_REG)
     {
-      printf("%s\n", tokens[i].str);
+      printf("%c %s\n", tokens[i].type, tokens[i].str);
     }
     else
     {
-      printf("\n");
+      printf("%c \n", tokens[i].type);
     }
   }
 
