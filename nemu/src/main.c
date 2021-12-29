@@ -39,7 +39,7 @@ void debug_expression()
   }
   else
   {
-    char line[1024];
+    char line[65536];
     size_t read;
     size_t len;
     printf("read file success\n");
