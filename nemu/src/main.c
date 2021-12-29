@@ -30,7 +30,7 @@ void debug_expression()
   // unsigned int val;
   // char *s = 0;
   // scanf("%d%s", a, &val,s);
-  FILE *fp = fopen("nemu/tools/gen-expr/input", "r");
+  FILE *fp = fopen("/home/zc/ics2019/nemu/tools/gen-expr/input", "r");
   if (fp == NULL)
   {
     printf("read file failed\n");
