@@ -50,9 +50,9 @@ void debug_expression()
       int val;
       char buffer[1024 * 1024] = {0};
       sscanf(line, "%u %[^\n]", &val, buffer);
-      printf("result: %u, expression: %s\n", val, buffer);
       char flag;
       unsigned ans = expr(buffer, &flag);
+      printf("result: %u, eval: %u\n", val, ans);
       num_lines++;
     }
     printf("num lines:%d\n", num_lines);
