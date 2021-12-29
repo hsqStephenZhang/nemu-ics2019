@@ -318,17 +318,20 @@ uint32_t expr(char *e, bool *success)
 
   Log("eval expression...");
 
-  for (int i = 0; i < nr_token; i++)
-  {
-    if (tokens[i].type == TK_DECI_NUM || tokens[i].type == TK_HEX_NUM || tokens[i].type == TK_REG)
-    {
-      printf("%c %s\n", tokens[i].type, tokens[i].str);
-    }
-    else
-    {
-      printf("%c \n", tokens[i].type);
-    }
-  }
+  // for (int i = 0; i < nr_token; i++)
+  // {
+  //   if (tokens[i].type == TK_DECI_NUM || tokens[i].type == TK_HEX_NUM || tokens[i].type == TK_REG)
+  //   {
+  //     printf("%c %s\n", tokens[i].type, tokens[i].str);
+  //   }
+  //   else
+  //   {
+  //     printf("%c \n", tokens[i].type);
+  //   }
+  // }
+
+  printf("%c %s\n", tokens[13].type, tokens[13].str);
+  printf("%c %s\n", tokens[89].type, tokens[89].str);
 
   uint32_t res = eval(0, nr_token - 1, success);
 
