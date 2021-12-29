@@ -26,6 +26,8 @@ int main(int argc, char *argv[])
 #include <stdlib.h>
 #include <string.h>
 
+unsigned int expr(char *e, char *success);
+
 void debug_expression()
 {
   FILE *fp = fopen("/home/zc/ics2019/nemu/tools/gen-expr/input", "r");
