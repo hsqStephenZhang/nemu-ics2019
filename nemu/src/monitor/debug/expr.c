@@ -214,12 +214,12 @@ int locate_op(int p, int q, bool *success)
       return -1;
     }
 
-    if (tokens[i].type == '&&' && lowest_priority >= 1)
+    if (tokens[i].type == TK_AND && lowest_priority >= 1)
     {
       lowest_priority = 1;
       lowest_priority_index = i;
     }
-    else if (tokens[i].type == '!=' || tokens[i].type == '==' && lowest_priority >= 2)
+    else if (tokens[i].type == TK_EQ || tokens[i].type == TK_NTEQ && lowest_priority >= 2)
     {
       if (lowest_priority != 1)
       {
