@@ -135,10 +135,17 @@ static bool make_token(char *e)
 }
 
 // check if a expression matches a pair of parentheses
-bool check_parentheses(int p, int q, bool *success)
+/*
+ * "(2 - 1)"             // true
+ * "(4 + 3 * (2 - 1))"   // true
+ * "4 + 3 * (2 - 1)"     // false, the whole expression is not surrounded by a matched
+ * "(4 + 3)) * ((2 - 1)" // false, bad expression
+ * "(4 + 3) * (2 - 1)"   // false, the leftmost '(' and the rightmost ')' are not matched
+ */
+bool check_parentheses(int p, int q)
 {
   int count = 0;
-  for (int i = p + 1; i <= q - 1; i++)
+  for (int i = p; i <= q; i++)
   {
     if (tokens[i].type == '(')
     {
@@ -151,18 +158,69 @@ bool check_parentheses(int p, int q, bool *success)
 
     if (count < 0)
     {
-      *success = false;
       return false;
     }
+    else if (count == 0)
+    {
+      return i == q;
+    }
   }
-
-  *success = (count == 0);
 
   return count == 0;
 }
 
+// find the main operation from right to left
+// we should judge the priority, lower the priority is, more likely it can be the main op
 int locate_op(int p, int q, bool *success)
 {
+  int lowest_priority_index = p;
+  int lowest_priority = 0;
+  for (int i = p; i <= q;)
+  {
+    if (tokens[i].type == '(')
+    {
+      int count = 1;
+      while (++i >= p)
+      {
+        if (tokens[i].type == ')')
+        {
+          count--;
+        }
+        else if (tokens[i].type == '(')
+        {
+          count++;
+        }
+        // Log("当前count = %d\n", count);
+        if (count == 0)
+        {
+          break;
+        }
+      }
+      i += 1;
+      continue;
+    }
+    else if (tokens[i].type == ')')
+    {
+      panic("unexpect token");
+    }
+    // e.g. (1+2) * (3/4) - (5*6)
+    //      (1+2) * (3/4) * (5*6)
+
+    if (tokens[i].type == '+' || tokens[i].type == '-')
+    {
+      lowest_priority = 1;
+      lowest_priority_index = i;
+    }
+    else if (tokens[i].type == '*' || tokens[i].type == '/')
+    {
+      if (lowest_priority != 1)
+      {
+        lowest_priority = 2;
+        lowest_priority_index = i;
+      }
+    }
+  }
+  return lowest_priority_index;
 }
 
 /*
@@ -171,6 +229,7 @@ int locate_op(int p, int q, bool *success)
  */
 uint32_t eval(int p, int q, bool *success)
 {
+  bool parentheses_res = false;
   if (p > q)
   {
     /* Bad expression */
@@ -197,22 +256,24 @@ uint32_t eval(int p, int q, bool *success)
     }
     else
     {
-      TODO();
+      panic("unknown token type");
     }
   }
-  else if ((tokens[p].type == '(' && tokens[q].type == ')') && check_parentheses(p, q, success) == true)
+  else if (tokens[p].type == '(' && tokens[q].type == ')' && (parentheses_res = check_parentheses(p, q)))
   {
     return eval(p + 1, q - 1, success);
   }
   else
   {
-    if (*success == false)
+    if (parentheses_res == false)
     {
-      Log("check parentheses failed");
-      return U32_MAX;
+      {
+        Log("check parentheses failed");
+        return U32_MAX;
+      }
     }
     // op = the position of 主运算符 in the token expression;
-    int op = 1;
+    int op = locate_op(p, q, success);
     uint32_t val1 = eval(p, op - 1, success);
     uint32_t val2 = eval(op + 1, q, success);
 
