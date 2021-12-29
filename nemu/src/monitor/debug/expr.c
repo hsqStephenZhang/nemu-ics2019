@@ -390,8 +390,6 @@ uint32_t expr(char *e, bool *success)
     }
   }
 
-#define DEBUG_PRINT_EXPR_TOKENS
-
 #ifdef DEBUG_PRINT_EXPR_TOKENS
 
   for (int i = 0; i < nr_token; i++)
