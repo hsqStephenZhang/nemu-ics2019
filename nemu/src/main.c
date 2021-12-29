@@ -46,7 +46,7 @@ void debug_expression()
       int val;
       char buffer[1024*1024];
       sprintf(line,"%u %s\n", &val, &buffer);
-      printf("%s\n", buffer);
+      printf("%d\n", val);
       num_lines++;
     }
     printf("num lines:%d\n", num_lines);
