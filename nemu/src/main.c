@@ -45,6 +45,7 @@ void debug_expression()
     printf("read file success\n");
     while ((read = getline(line, &len, fp)) != -1)
     {
+    printf("read file success\n");
       printf("line:%s\n",line);
     }
 
