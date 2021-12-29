@@ -144,7 +144,7 @@ static bool make_token(char *e)
  */
 bool check_parentheses(int p, int q)
 {
-  Log("p, q's character: %c -- %c", tokens[p].type, tokens[q].type);
+  Log("%d, %d's character: %c -- %c", p, q, tokens[p].type, tokens[q].type);
   int count = 0;
   for (int i = p; i <= q; i++)
   {
