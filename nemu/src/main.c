@@ -8,13 +8,13 @@ int main(int argc, char *argv[])
 #ifdef DEBUG_EXPR
   void debug_expression();
   debug_expression();
-#endif
-
+#else
   /* Initialize the monitor. */
   int is_batch_mode = init_monitor(argc, argv);
 
   /* Receive commands from user. */
   ui_mainloop(is_batch_mode);
+#endif
 
   return 0;
 }
@@ -43,8 +43,6 @@ void debug_expression()
     size_t read;
     size_t len;
     int num_lines = 0;
-    printf("read file success\n");
-    printf("read file success\n");
     printf("read file success\n");
     while ((read = getline(line, &len, fp)) != -1)
     {
