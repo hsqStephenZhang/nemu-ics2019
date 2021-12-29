@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 }
 
 #ifdef DEBUG_EXPR
-#define __USE_GNU
+#define _GNU_SOURCE
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -39,18 +39,17 @@ void debug_expression()
   }
   else
   {
-    char *line = 0;
+    char *line = NULL;
     size_t read;
     size_t len;
-    int num_lines=0;
+    int num_lines = 0;
     printf("read file success\n");
     while ((read = getline(line, &len, fp)) != -1)
     {
-      printf("read file success\n");
       printf("line:%s\n", line);
       num_lines++;
     }
-      printf("num lines:%d\n", num_lines);
+    printf("num lines:%d\n", num_lines);
 
     if (line)
     {
