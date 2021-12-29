@@ -1,7 +1,7 @@
 int init_monitor(int, char *[]);
 void ui_mainloop(int);
 
-#define DEBUG_EXPR
+// #define DEBUG_EXPR
 
 int main(int argc, char *argv[])
 {
