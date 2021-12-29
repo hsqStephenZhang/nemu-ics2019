@@ -219,6 +219,7 @@ int locate_op(int p, int q, bool *success)
         lowest_priority_index = i;
       }
     }
+    i += 1;
   }
   Log("lowest_priority_index:%d", lowest_priority_index);
   return lowest_priority_index;
