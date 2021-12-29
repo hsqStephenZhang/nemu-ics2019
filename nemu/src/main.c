@@ -43,7 +43,10 @@ void debug_expression()
     printf("read file success\n");
     while ((read = getline(&line, &len, fp)) != -1)
     {
-      printf("line:%s\n", line);
+      int val;
+      char buffer[1024*1024];
+      sprintf(line,"%u %s\n", &val, &buffer);
+      printf("%s\n", buffer);
       num_lines++;
     }
     printf("num lines:%d\n", num_lines);
