@@ -230,7 +230,7 @@ int locate_op(int p, int q, bool *success)
  */
 uint32_t eval(int p, int q, bool *success)
 {
-  bool parentheses_res = false;
+  bool parentheses_res = true;
   if (p > q)
   {
     /* Bad expression */
