@@ -71,11 +71,11 @@ void cpu_exec(uint64_t n)
     log_clearbuf();
 
     /* check watchpoints here. */
-    // if (check_wps())
-    // {
-    //   nemu_state.state = NEMU_STOP;
-    //   Log("watchpoint triggered");
-    // }
+    if (check_wps())
+    {
+      nemu_state.state = NEMU_STOP;
+      Log("watchpoint triggered");
+    }
 
 #endif
 
