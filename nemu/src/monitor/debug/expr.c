@@ -272,10 +272,7 @@ uint32_t eval(int p, int q, bool *success)
   {
     if (parentheses_res == false)
     {
-      {
-        Log("check parentheses failed");
-        // return U32_MAX;
-      }
+        Log("check parentheses failed, the result may not be what you expect,please check the expression");
     }
     // op = the position of 主运算符 in the token expression;
     int op = locate_op(p, q, success);
@@ -319,28 +316,28 @@ uint32_t expr(char *e, bool *success)
 
   Log("eval expression...");
 
-  int debug_l = 0, debug_r = 0;
-  for (int i = 0; i < nr_token; i++)
-  {
-    if (tokens[i].type == TK_DECI_NUM || tokens[i].type == TK_HEX_NUM || tokens[i].type == TK_REG)
-    {
-      printf("token%d: %d %s\n", i, tokens[i].type, tokens[i].str);
-    }
-    else
-    {
-      printf("token%d: %c \n", i, tokens[i].type);
-    }
-    if (tokens[i].type == '(')
-    {
-      debug_l++;
-    }
-    else if (tokens[i].type == ')')
-    {
-      debug_r++;
-    }
-  }
+  // int debug_l = 0, debug_r = 0;
+  // for (int i = 0; i < nr_token; i++)
+  // {
+  //   if (tokens[i].type == TK_DECI_NUM || tokens[i].type == TK_HEX_NUM || tokens[i].type == TK_REG)
+  //   {
+  //     printf("token%d: %d %s\n", i, tokens[i].type, tokens[i].str);
+  //   }
+  //   else
+  //   {
+  //     printf("token%d: %c \n", i, tokens[i].type);
+  //   }
+  //   if (tokens[i].type == '(')
+  //   {
+  //     debug_l++;
+  //   }
+  //   else if (tokens[i].type == ')')
+  //   {
+  //     debug_r++;
+  //   }
+  // }
 
-  Log("left right count: %d %d", debug_l, debug_r);
+  // Log("left right count: %d %d", debug_l, debug_r);
 
   // printf("%c %s\n", tokens[13].type, tokens[13].str);
   // printf("%c %s\n", tokens[89].type, tokens[89].str);
