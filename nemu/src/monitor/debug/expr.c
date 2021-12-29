@@ -5,6 +5,9 @@
  */
 #include <sys/types.h>
 #include <regex.h>
+#include <stdlib.h>
+
+uint32_t isa_reg_str2val(const char *, bool *);
 
 enum
 {
@@ -23,23 +26,17 @@ static struct rule
   char *regex;
   int token_type;
 } rules[] = {
-
-    /* TODO: Add more rules.
-     * Pay attention to the precedence level of different rules.
-     */
-
     {" +", TK_NOTYPE}, // spaces
     {"\\*", '*'},      // multi
     {"/", '/'},        // divide
     {"\\+", '+'},      // plus
     {"\\-", '-'},      // sub
-    {"==", TK_EQ},     // equal
-    {"!=", TK_NTEQ},   // not equal
-    {"&&", TK_AND},    // and &&
     {"\\(", '('},
     {"\\)", ')'},
     {"0x[0-9a-f]+U", TK_HEX_NUM},      // hex nums
+    {"0x[0-9a-f]+", TK_HEX_NUM},       // hex nums, ignore the 'U'
     {"[0-9]+U", TK_DECI_NUM},          // decimal nums
+    {"[0-9]+", TK_DECI_NUM},           // decimal nums, ignore the 'U'
     {"[\\$][a-zA-Z0-9]{1,3}", TK_REG}, // the length of the reg's name should be 2 or 3
 };
 
@@ -135,6 +132,107 @@ static bool make_token(char *e)
   return true;
 }
 
+// check if a expression matches a pair of parentheses
+bool check_parentheses(int p, int q)
+{
+  int count = 0;
+  for (int i = p + 1; i <= q - 1; i++)
+  {
+    if (tokens[i].type == '(')
+    {
+      count += 1;
+    }
+    else if (tokens[i].type == ')')
+    {
+      count -= 1;
+    }
+
+    if (count < 0)
+    {
+      return false;
+    }
+  }
+
+  return count == 0;
+}
+
+int locate_op(int p, int q, bool *success)
+{
+}
+
+/*
+ * p: left index
+ * q: right index
+ */
+uint32_t eval(int p, int q, bool *success)
+{
+  if (p > q)
+  {
+    /* Bad expression */
+    return -1;
+  }
+  else if (p == q)
+  {
+    if (tokens[p].type == TK_HEX_NUM)
+    {
+       return strtol(tokens[p].str, NULL, 16);
+    }
+    else if (tokens[p].type == TK_DECI_NUM)
+    {
+       return strtol(tokens[p].str, NULL, 10);
+    }
+    else if (tokens[p].type == TK_REG)
+    {
+       uint32_t reg_val = isa_reg_str2val(tokens[p].str, success);
+       if (*success){
+         return reg_val;
+       }
+       return -1;
+    }else {
+      TODO();
+    }
+  }
+  else if ((tokens[p].type == '(' && tokens[q].type == ')') && check_parentheses(p, q) == true)
+  {
+    return eval(p + 1, q - 1, success);
+  }
+  else
+  {
+    // if (*success==false){
+    //   Log("check parentheses failed");
+    //   return -1;
+    // }
+    // op = the position of 主运算符 in the token expression;
+    int op = 1;
+    uint32_t val1 = eval(p, op - 1, success);
+    uint32_t val2 = eval(op + 1, q, success);
+
+    switch (tokens[op].type)
+    {
+    case '+':
+      return val1 + val2;
+    case '-':
+      return val1 - val2;
+    case '*':
+      return val1 * val2;
+    case '/':
+    {
+      // TODO: divide by zero trap
+      if (val2 == 0)
+      {
+        Log("divide by zero error");
+        return -1;
+      }
+      else
+      {
+        return val1 / val2;
+      }
+    }
+    default: panic("unknown operation");
+    }
+  }
+}
+
 uint32_t expr(char *e, bool *success)
 {
   if (!make_token(e))
@@ -158,5 +256,7 @@ uint32_t expr(char *e, bool *success)
     }
   }
 
-  return 0;
+  uint32_t res = eval(0, nr_token - 1, success);
+
+  return res;
 }

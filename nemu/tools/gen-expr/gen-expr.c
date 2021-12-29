@@ -33,6 +33,7 @@ void gen_num()
     buf[idx++] = number_str[i];
   }
 
+  // incase the result will overflow, we make sure it's unsigned operation
   if (length != 0)
   {
     buf[idx++] = 'U';
