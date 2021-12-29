@@ -65,7 +65,7 @@ static int cmd_info(char *args)
   if (strcasecmp(args, "r")==0){
     isa_reg_display();
   }else if (strcasecmp(args, "w")==0){
-    printf("info w, TODO\n");
+    print_wps();
   }else{
     printf("info unknown, TODO\n");
   }
