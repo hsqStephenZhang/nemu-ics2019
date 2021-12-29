@@ -114,7 +114,11 @@ static int cmd_info(char *args)
     {
       reg_name += 1;
     }
-    isa_reg_display_reg(reg_name);
+    printf("reg name: %s\n", reg_name);
+    if (reg_name != NULL)
+    {
+      isa_reg_display_reg(reg_name);
+    }
   }
   else
   {
