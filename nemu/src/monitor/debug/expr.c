@@ -220,6 +220,7 @@ int locate_op(int p, int q, bool *success)
       }
     }
   }
+  Log("lowest_priority_index:%d", lowest_priority_index);
   return lowest_priority_index;
 }
 
@@ -314,18 +315,18 @@ uint32_t expr(char *e, bool *success)
 
   Log("eval expression...");
 
-  for (int i = 0; i < nr_token; i++)
-  {
-    printf("%d", tokens[i].type);
-    if (tokens[i].type == TK_DECI_NUM || tokens[i].type == TK_HEX_NUM || tokens[i].type == TK_REG)
-    {
-      printf("%s\n", tokens[i].str);
-    }
-    else
-    {
-      printf("\n");
-    }
-  }
+  // for (int i = 0; i < nr_token; i++)
+  // {
+  //   printf("%d", tokens[i].type);
+  //   if (tokens[i].type == TK_DECI_NUM || tokens[i].type == TK_HEX_NUM || tokens[i].type == TK_REG)
+  //   {
+  //     printf("%s\n", tokens[i].str);
+  //   }
+  //   else
+  //   {
+  //     printf("\n");
+  //   }
+  // }
 
   uint32_t res = eval(0, nr_token - 1, success);
 
