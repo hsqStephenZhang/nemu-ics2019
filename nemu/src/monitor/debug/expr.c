@@ -19,6 +19,8 @@ enum
   TK_HEX_NUM,  // 十六进制数字
   TK_REG,      // 寄存器
   TK_DEREF,    // 解引用
+  TK_NTEQ,     // !=
+  TK_AND,      // &&
 };
 
 static struct rule
@@ -33,6 +35,9 @@ static struct rule
     {"\\-", '-'},      // sub
     {"\\(", '('},
     {"\\)", ')'},
+    {"==", TK_EQ},                     // equal
+    {"!=", TK_NTEQ},                   // not equal
+    {"&&", TK_AND},                    // and &&
     {"0x[0-9a-f]+U", TK_HEX_NUM},      // hex nums
     {"0x[0-9a-f]+", TK_HEX_NUM},       // hex nums, ignore the 'U'
     {"[0-9]+U", TK_DECI_NUM},          // decimal nums
@@ -170,10 +175,16 @@ bool check_parentheses(int p, int q)
 
 // find the main operation from right to left
 // we should judge the priority, lower the priority is, more likely it can be the main op
+/*
+&&: 1
+== | != : 2
++ | - : 3
+* | / : 4
+*/
 int locate_op(int p, int q, bool *success)
 {
   int lowest_priority_index = p;
-  int lowest_priority = 0;
+  int lowest_priority = 4;
   for (int i = p; i <= q;)
   {
     // find the matches parentheses
@@ -200,17 +211,14 @@ int locate_op(int p, int q, bool *success)
     }
     else if (tokens[i].type == ')')
     {
-      panic("unexpect token");
+      return -1;
     }
-    // e.g. (1+2) * (3/4) - (5*6)
-    //      (1+2) * (3/4) * (5*6)
-
-    if (tokens[i].type == '+' || tokens[i].type == '-')
+    if (tokens[i].type == '&&' && lowest_priority >= 1)
     {
       lowest_priority = 1;
       lowest_priority_index = i;
     }
-    else if (tokens[i].type == '*' || tokens[i].type == '/')
+    else if (tokens[i].type == '!=' || tokens[i].type == '==' && lowest_priority >= 2)
     {
       if (lowest_priority != 1)
       {
@@ -218,6 +226,17 @@ int locate_op(int p, int q, bool *success)
         lowest_priority_index = i;
       }
     }
+    else if (tokens[i].type == '+' || tokens[i].type == '-' && lowest_priority >= 3)
+    {
+      lowest_priority = 3;
+      lowest_priority_index = i;
+    }
+    else if (tokens[i].type == '*' || tokens[i].type == '/' && lowest_priority >= 4)
+    {
+      lowest_priority = 4;
+      lowest_priority_index = i;
+    }
+
     i += 1;
   }
   Log("lowest_priority_index:%d", lowest_priority_index);
@@ -268,10 +287,38 @@ uint32_t eval(int p, int q, bool *success)
   {
     if (parentheses_res == false)
     {
-        Log("check parentheses failed, the result may not be what you expect,please check the expression");
+      Log("check parentheses failed, the result may not be what you expect,please check the expression");
     }
     // op = the position of 主运算符 in the token expression;
     int op = locate_op(p, q, success);
+
+    if (*success == false)
+    {
+      Log("locate operation index failed");
+      return U32_MAX;
+    }
+
+    if (tokens[op].type == TK_DEREF)
+    {
+      uint32_t address = eval(p + 1, q, success);
+      if (*success == false)
+      {
+        Log("main_op: deref failed");
+        return U32_MAX;
+      }
+      else if (address < 0 || address > PMEM_SIZE - 4)
+      {
+        *success = false;
+        Log("deref address out of boundary");
+        return U32_MAX;
+      }
+      else
+      {
+        *success = true;
+        return isa_vaddr_read(address, 4);
+      }
+    }
+
     uint32_t val1 = eval(p, op - 1, success);
     uint32_t val2 = eval(op + 1, q, success);
 
@@ -296,10 +343,30 @@ uint32_t eval(int p, int q, bool *success)
         return val1 / val2;
       }
     }
+    case TK_EQ:
+      return val1 == val2;
+    case TK_NTEQ:
+      return val1 != val2;
+    case TK_AND:
+      return val1 && val2;
     default:
-      panic("unknown operation");
+      Log("unknown operation");
+      return U32_MAX;
     }
   }
+}
+
+bool deref_match(int t)
+{
+  char *str = "+-*/(";
+  for (int i = 0; i < strlen(str); i++)
+  {
+    if (t == str[i])
+    {
+      return true;
+    }
+  }
+  return t == TK_DEREF || t == TK_EQ || t == TK_NTEQ || t == TK_AND;
 }
 
 uint32_t expr(char *e, bool *success)
@@ -312,31 +379,37 @@ uint32_t expr(char *e, bool *success)
 
   Log("eval expression...");
 
-  // int debug_l = 0, debug_r = 0;
-  // for (int i = 0; i < nr_token; i++)
-  // {
-  //   if (tokens[i].type == TK_DECI_NUM || tokens[i].type == TK_HEX_NUM || tokens[i].type == TK_REG)
-  //   {
-  //     printf("token%d: %d %s\n", i, tokens[i].type, tokens[i].str);
-  //   }
-  //   else
-  //   {
-  //     printf("token%d: %c \n", i, tokens[i].type);
-  //   }
-  //   if (tokens[i].type == '(')
-  //   {
-  //     debug_l++;
-  //   }
-  //   else if (tokens[i].type == ')')
-  //   {
-  //     debug_r++;
-  //   }
-  // }
+  for (int i = 0; i < nr_token; i++)
+  {
+    if (tokens[i].type == '*' && (i == 0 || deref_match(tokens[i - 1].type)))
+    {
+      tokens[i].type = TK_DEREF;
+    }
+  }
 
-  // Log("left right count: %d %d", debug_l, debug_r);
+#ifdef DEBUG_PRINT_EXPR_TOKENS
 
-  // printf("%c %s\n", tokens[13].type, tokens[13].str);
-  // printf("%c %s\n", tokens[89].type, tokens[89].str);
+  for (int i = 0; i < nr_token; i++)
+  {
+    if (tokens[i].type == TK_DECI_NUM || tokens[i].type == TK_HEX_NUM || tokens[i].type == TK_REG)
+    {
+      printf("token%d: %d %s\n", i, tokens[i].type, tokens[i].str);
+    }
+    else
+    {
+      printf("token%d: %c \n", i, tokens[i].type);
+    }
+    if (tokens[i].type == '(')
+    {
+      debug_l++;
+    }
+    else if (tokens[i].type == ')')
+    {
+      debug_r++;
+    }
+  }
+
+#endif
 
   uint32_t res = eval(0, nr_token - 1, success);
 
