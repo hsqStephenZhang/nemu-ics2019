@@ -120,9 +120,6 @@ static struct
     {"w", "new watchpoint", cmd_new_wp},
     {"d", "remove watchpoint", cmd_rm_wp},
     {"p", "Evaluate given expression", cmd_expr},
-
-    /* TODO: Add more commands */
-
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
