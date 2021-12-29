@@ -274,7 +274,7 @@ uint32_t eval(int p, int q, bool *success)
     {
       {
         Log("check parentheses failed");
-        return U32_MAX;
+        // return U32_MAX;
       }
     }
     // op = the position of 主运算符 in the token expression;
