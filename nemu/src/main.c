@@ -22,9 +22,9 @@ int main(int argc, char *argv[])
 #ifdef DEBUG_EXPR
 #define _GNU_SOURCE
 
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 void debug_expression()
 {
@@ -56,24 +56,28 @@ void debug_expression()
   //   fclose(fp);
   // }
 
-  FILE * fp=fopen("tools/gen-expr/input","r");
+#define NUM_LINES 100
+
+  FILE *fp = fopen("tools/gen-expr/input", "r");
   char expression[70000];
   char *str;
-  for(int i = 0;i < 10000;i++)
+  for (int i = 0; i < NUM_LINES; i++)
   {
-    char flag=1;
+    char flag = 1;
+
+    expression[0] = '\0';
+    fgets(expression, 70000, fp);
+    unsigned answer = 0, ans;
+    str = strtok(expression, " ");
+    sscanf(expression, "%u", &answer);
+    str = expression + strlen(expression) + 1;
+    printf("str:%s\n",str);
+    ans = expr(str, &flag);
+    if (answer != ans)
+      printf("%d Wrong\n", i);
+    else
+      printf("correct %d\n", i);
     
-    expression[0]='\0';
-    fgets(expression,70000,fp);
-    unsigned answer=0,ans;
-    str = strtok(expression," ");
-    sscanf(expression,"%u",&answer);
-    str=expression+strlen(expression)+1;
-    ans=expr(str,&flag);
-    if(answer!=ans)
-      printf("%d Wrong\n",i);
-    else printf("correct %d\n",i);
-  
   }
 }
 
