@@ -19,9 +19,9 @@ void isa_reg_display()
 
 void isa_reg_display_reg(char *reg)
 {
+  printf("reg name: %s\n", reg);
   for (int i = 0; i < NUM_REGS; i++)
   {
-      printf("%-3s = 0x%08x\n", regsl[i], reg_l(i));
     if (strcmp(reg, reg_l(i)) == 0)
     {
       printf("%-3s = 0x%08x\n", regsl[i], reg_l(i));
