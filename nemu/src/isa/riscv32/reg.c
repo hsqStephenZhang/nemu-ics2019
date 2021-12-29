@@ -11,12 +11,8 @@ static int NUM_REGS = 32;
 
 void isa_reg_display() {
   for (int i = 0; i < NUM_REGS; i++) {
-    printf("%-3s = 0x%08x  ", regsl[i], reg_l(i));
-    if ((i+1) % 8 != 0) {
-      printf(", ");
-    } else {
+    printf("%-3s = 0x%08x", regsl[i], reg_l(i));
       printf("\n");
-    }
   }
 }
 
