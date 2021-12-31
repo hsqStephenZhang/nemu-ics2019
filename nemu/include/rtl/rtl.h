@@ -36,26 +36,27 @@ static inline void interpret_rtl_mv(rtlreg_t *dest, const rtlreg_t *src1)
     rtl_##name(dest, src1, &ir);                                                                               \
   }
 
-make_rtl_arith_logic(add)
-    make_rtl_arith_logic(sub)
-        make_rtl_arith_logic(and)
-            make_rtl_arith_logic(or)
-                make_rtl_arith_logic(xor)
-                    make_rtl_arith_logic(shl)
-                        make_rtl_arith_logic(shr)
-                            make_rtl_arith_logic(sar)
-                                make_rtl_arith_logic(mul_lo)
-                                    make_rtl_arith_logic(mul_hi)
-                                        make_rtl_arith_logic(imul_lo)
-                                            make_rtl_arith_logic(imul_hi)
-                                                make_rtl_arith_logic(div_q)
-                                                    make_rtl_arith_logic(div_r)
-                                                        make_rtl_arith_logic(idiv_q)
-                                                            make_rtl_arith_logic(idiv_r)
-make_rtl_arith_logic(mul_hsu)
+/// for vscode format, adding ';' at the end of the make_rtl_arith_logic
+make_rtl_arith_logic(add);
+make_rtl_arith_logic(sub);
+make_rtl_arith_logic(and);
+make_rtl_arith_logic(or);
+make_rtl_arith_logic(xor);
+make_rtl_arith_logic(shl);
+make_rtl_arith_logic(shr);
+make_rtl_arith_logic(sar);
+make_rtl_arith_logic(mul_lo);
+make_rtl_arith_logic(mul_hi);
+make_rtl_arith_logic(imul_lo);
+make_rtl_arith_logic(imul_hi);
+make_rtl_arith_logic(div_q);
+make_rtl_arith_logic(div_r);
+make_rtl_arith_logic(idiv_q);
+make_rtl_arith_logic(idiv_r);
+make_rtl_arith_logic(mul_hsu);
 
-                                                                static inline void interpret_rtl_div64_q(rtlreg_t *dest,
-                                                                                                         const rtlreg_t *src1_hi, const rtlreg_t *src1_lo, const rtlreg_t *src2)
+static inline void interpret_rtl_div64_q(rtlreg_t *dest,
+                                         const rtlreg_t *src1_hi, const rtlreg_t *src1_lo, const rtlreg_t *src2)
 {
   uint64_t dividend = ((uint64_t)(*src1_hi) << 32) | (*src1_lo);
   uint32_t divisor = (*src2);
@@ -171,12 +172,25 @@ static inline void rtl_not(rtlreg_t *dest, const rtlreg_t *src1)
 static inline void rtl_sext(rtlreg_t *dest, const rtlreg_t *src1, int width)
 {
   int32_t temp = *src1;
-  switch(width) {
-    case 4: *dest = *src1; return;
-    case 3: temp = temp <<  8; *dest = temp >>  8; return; 
-    case 2: temp = temp << 16; *dest = temp >> 16; return; 
-    case 1: temp = temp << 24; *dest = temp >> 24; return;
-    default: assert(0);
+  switch (width)
+  {
+  case 4:
+    *dest = *src1;
+    return;
+  case 3:
+    temp = temp << 8;
+    *dest = temp >> 8;
+    return;
+  case 2:
+    temp = temp << 16;
+    *dest = temp >> 16;
+    return;
+  case 1:
+    temp = temp << 24;
+    *dest = temp >> 24;
+    return;
+  default:
+    assert(0);
   }
 }
 
