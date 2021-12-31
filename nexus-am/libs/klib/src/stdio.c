@@ -157,12 +157,12 @@ int vsprintf(char *out, const char *fmt, va_list ap)
       }
       else
       {
-        printf("unexpected format %c", ch);
+        // printf("unexpected format %c", ch);
         assert(0);
       }
       fmt++;
     default:
-      printf("unexpected format %c", ch);
+      // printf("unexpected format %c", ch);
       assert(0);
     }
   }
