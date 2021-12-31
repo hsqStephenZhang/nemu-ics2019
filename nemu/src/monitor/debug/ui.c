@@ -170,7 +170,7 @@ static int cmd_help(char *args)
   {
     for (i = 0; i < NR_CMD; i++)
     {
-      if (strcmp(arg, cmd_table[i].name) == 0 || (cmd_table[i].short_name != NULL && strcmp(cmd_table[i].short_name, arg) == 0))
+      if (strcmp(arg, cmd_table[i].name) == 0 || (cmd_table[i].short_name != NULL && strcmp(arg, cmd_table[i].short_name) == 0))
       {
         printf("%s - %s\n", cmd_table[i].name, cmd_table[i].description);
         return 0;
@@ -217,7 +217,7 @@ void ui_mainloop(int is_batch_mode)
     int i;
     for (i = 0; i < NR_CMD; i++)
     {
-      if (strcmp(cmd, cmd_table[i].name) == 0)
+      if (strcmp(cmd, cmd_table[i].name) == 0 || (cmd_table[i].short_name != NULL && strcmp(cmd_table[i].short_name, cmd) == 0))
       {
         if (cmd_table[i].handler(args) < 0)
         {
