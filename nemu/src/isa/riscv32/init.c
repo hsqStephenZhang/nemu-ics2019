@@ -1,7 +1,5 @@
 #include "nemu.h"
 
-extern CPU_state cpu;
-
 // this is not consistent with uint8_t
 // but it is ok since we do not access the array directly
 const uint32_t isa_default_img [] = {
