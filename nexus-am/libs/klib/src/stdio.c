@@ -3,69 +3,91 @@
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
-static void putc(char * dst, char ch, int offset) {
-  if (dst) {
+static void putc(char *dst, char ch, int offset)
+{
+  if (dst)
+  {
     dst[offset] = ch;
-  } else {
+  }
+  else
+  {
     _putc(ch);
   }
 }
 
-static int int_num_char(long value, int base) {
+static int int_num_char(long value, int base)
+{
   int count = 1;
-  while (value / base) {
+  while (value / base)
+  {
     count++;
     value /= base;
   }
   return count;
 }
 
-static int print_s(const char * data, char * dst) {
-  const char * count = data;
-  while (*count) {
+static int print_s(const char *data, char *dst)
+{
+  const char *count = data;
+  while (*count)
+  {
     putc(dst, *count, count - data);
     count++;
   }
   return count - data;
 }
 
-static char itoc(int value) {
-  if (value < 10) {
+static char itoc(int value)
+{
+  if (value < 10)
+  {
     return value + '0';
-  } else {
+  }
+  else
+  {
     return value - 10 + 'a';
   }
 }
 
-static int print_d(long d, int count, char * dst, int base) {
+static int print_d(long d, int count, char *dst, int base)
+{
   assert(base == 10 || base == 16);
-  if (d < 0) {
+  if (d < 0)
+  {
     putc(dst, '-', count);
-    return print_d(-d, count, dst ? dst+1 : dst, base) +1;
+    return print_d(-d, count, dst ? dst + 1 : dst, base) + 1;
   }
-  
-  if (d / base) {
+
+  if (d / base)
+  {
     count += print_d(d / base, count, dst, base);
     putc(dst, itoc(d % base), count);
-  } else {
+  }
+  else
+  {
     putc(dst, itoc(d), count);
   }
   return count + 1;
 }
 
-static int print_p(unsigned long p, int count, char * dst) {
+static int print_p(unsigned long p, int count, char *dst)
+{
   unsigned int base = 16;
   assert(p >= 0);
-  if (p / base) {
+  if (p / base)
+  {
     count += print_p(p / base, count, dst);
     putc(dst, itoc(p % base), count);
-  } else {
+  }
+  else
+  {
     putc(dst, itoc(p), count);
   }
   return count + 1;
 }
 
-int printf(const char *fmt, ...) {
+int printf(const char *fmt, ...)
+{
   va_list ap;
   va_start(ap, fmt);
   int count = vsprintf(NULL, fmt, ap);
@@ -74,15 +96,18 @@ int printf(const char *fmt, ...) {
   return count;
 }
 
-int vsprintf(char *out, const char *fmt, va_list ap) {
+int vsprintf(char *out, const char *fmt, va_list ap)
+{
 
   char *s;
   long d;
   char ch;
   int count = 0;
   int width;
-  while((ch = *fmt++)) {
-    if (ch != '%') {
+  while ((ch = *fmt++))
+  {
+    if (ch != '%')
+    {
       putc(out, ch, count);
       count++;
       continue;
@@ -115,28 +140,37 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
     case '0':
       width = *fmt++ - '0';
       d = va_arg(ap, int);
-      for (int i = 0; i < width - int_num_char(d, *fmt == 'd' ? 10 : 16); i++) {
+      for (int i = 0; i < width - int_num_char(d, *fmt == 'd' ? 10 : 16); i++)
+      {
         putc(out, '0', count + i);
       }
       assert(width == 8);
-      if (*fmt == 'd') {
+      if (*fmt == 'd')
+      {
         out ? print_d(d, 0, out + count, 10) : print_d(d, 0, NULL, 10);
         count += width;
-      } else if (*fmt == 'x') {
+      }
+      else if (*fmt == 'x')
+      {
         out ? print_d(d, 0, out + count, 16) : print_d(d, 0, NULL, 16);
         count += width;
-      } else {
+      }
+      else
+      {
+        printf("unexpected format %c", ch);
         assert(0);
       }
       fmt++;
     default:
+      printf("unexpected format %c", ch);
       assert(0);
     }
   }
   return count;
 }
 
-int sprintf(char *out, const char *fmt, ...) {
+int sprintf(char *out, const char *fmt, ...)
+{
   va_list ap;
   va_start(ap, fmt);
   int count = vsprintf(out, fmt, ap);

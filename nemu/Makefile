@@ -19,8 +19,6 @@ SO_CFLAGS = -fPIC -D_SHARE=1
 SO_LDLAGS = -shared -fPIC
 endif
 
-BUILD_DIR ?= $(shell pwd)
-
 OBJ_DIR ?= $(BUILD_DIR)/obj-$(ISA)$(SO)
 BINARY ?= $(BUILD_DIR)/$(ISA)-$(NAME)$(SO)
 
