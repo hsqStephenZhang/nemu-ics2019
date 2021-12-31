@@ -144,7 +144,7 @@ int vsprintf(char *out, const char *fmt, va_list ap)
       {
         putc(out, '0', count + i);
       }
-      assert(width == 8);
+      // assert(width == 8);
       if (*fmt == 'd')
       {
         out ? print_d(d, 0, out + count, 10) : print_d(d, 0, NULL, 10);
