@@ -110,7 +110,7 @@ static int cmd_info(char *args)
   else if (args[0] == 'r' && args[1] == ' ')
   {
     char *reg_name = args + 2;
-    while (reg_name != NULL && reg_name == ' ')
+    while (reg_name != NULL && *reg_name == ' ')
     {
       reg_name += 1;
     }
@@ -143,7 +143,7 @@ static struct
     {"help", "h", "Display informations about all supported commands", cmd_help},
     {"continue", "c", "Continue the execution of the program", cmd_c},
     {"quit", "q", "Exit NEMU", cmd_q},
-    {"si", "Single step the program", cmd_si},
+    {"si", NULL, "Single step the program", cmd_si},
     {"info", "i", "info about the monitor", cmd_info},
     {"watchpoint", "w", "new watchpoint", cmd_new_wp},
     {"delete", "d", "remove watchpoint", cmd_rm_wp},
