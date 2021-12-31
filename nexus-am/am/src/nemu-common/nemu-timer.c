@@ -3,7 +3,7 @@
 #include <nemu.h>
 
 size_t __am_timer_read(uintptr_t reg, void *buf, size_t size) {
-  printf("read timer");
+  // printf("read timer\n");
   switch (reg) {
     case _DEVREG_TIMER_UPTIME: {
       _DEV_TIMER_UPTIME_t *uptime = (_DEV_TIMER_UPTIME_t *)buf;
