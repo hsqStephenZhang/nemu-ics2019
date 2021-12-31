@@ -11,7 +11,7 @@ static void putc(char * dst, char ch, int offset) {
   }
 }
 
-static int int_width(long value, int base) {
+static int int_num_char(long value, int base) {
   int count = 1;
   while (value / base) {
     count++;
@@ -29,7 +29,7 @@ static int print_s(const char * data, char * dst) {
   return count - data;
 }
 
-static char int_to_ch(int value) {
+static char itoc(int value) {
   if (value < 10) {
     return value + '0';
   } else {
@@ -46,26 +46,24 @@ static int print_d(long d, int count, char * dst, int base) {
   
   if (d / base) {
     count += print_d(d / base, count, dst, base);
-    putc(dst, int_to_ch(d % base), count);
+    putc(dst, itoc(d % base), count);
   } else {
-    putc(dst, int_to_ch(d), count);
+    putc(dst, itoc(d), count);
   }
   return count + 1;
 }
-
 
 static int print_p(unsigned long p, int count, char * dst) {
   unsigned int base = 16;
   assert(p >= 0);
   if (p / base) {
     count += print_p(p / base, count, dst);
-    putc(dst, int_to_ch(p % base), count);
+    putc(dst, itoc(p % base), count);
   } else {
-    putc(dst, int_to_ch(p), count);
+    putc(dst, itoc(p), count);
   }
   return count + 1;
 }
-
 
 int printf(const char *fmt, ...) {
   va_list ap;
@@ -115,11 +113,9 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
       count += print_p(d, 0, out ? out + count : out);
       break;
     case '0':
-
       width = *fmt++ - '0';
       d = va_arg(ap, int);
-      // 直接向对应的位置填充width - actual_witdth个字符
-      for (int i = 0; i < width - int_width(d, *fmt == 'd' ? 10 : 16); i++) {
+      for (int i = 0; i < width - int_num_char(d, *fmt == 'd' ? 10 : 16); i++) {
         putc(out, '0', count + i);
       }
       assert(width == 8);
