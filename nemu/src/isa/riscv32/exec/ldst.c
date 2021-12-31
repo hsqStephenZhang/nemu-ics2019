@@ -22,3 +22,14 @@ make_EHelper(st) {
     default: assert(0);
   }
 }
+
+make_EHelper(lb_lh) {
+  rtl_lm(&s0, &id_src->addr, decinfo.width);
+  
+  switch(decinfo.width) {
+    case 2: rtl_sext(&s1, &s0, 2); print_asm_template2(lh);break;
+    case 1: rtl_sext(&s1, &s0, 1); print_asm_template2(lb);break;
+    default: assert(0);
+  }
+  rtl_sr(id_dest->reg, &s1, 4);  
+}
