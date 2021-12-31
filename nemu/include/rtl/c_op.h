@@ -18,4 +18,7 @@
 #define c_idiv_q(a, b) ((int32_t)(a) / (int32_t)(b))
 #define c_idiv_r(a, b)  ((int32_t)(a) % (int32_t)(b))
 
+#define c_mul_hsu(a, b) (((int64_t)(a) * (uint64_t)(b)) >> 32) 
+
+
 #endif
