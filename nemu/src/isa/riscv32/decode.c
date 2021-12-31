@@ -4,7 +4,7 @@
 // decode operand helper
 #define make_DopHelper(name) void concat(decode_op_, name) (Operand *op, uint32_t val, bool load_val)
 
-static inline void sext(rtlreg_t *temp, uint32_t width) {
+static inline void sext(int32_t *temp, uint32_t width) {
   uint32_t shift = 32 - width;
   int32_t num = *temp;
   num = (num) << shift;
@@ -61,7 +61,7 @@ make_DHelper(st) {
 }
 
 make_DHelper(I) {
-  rtlreg_t simm = (rtlreg_t)decinfo.isa.instr.simm11_0;
+  int32_t simm = decinfo.isa.instr.simm11_0;
   sext(&simm, 12);
   decode_op_r(id_src, decinfo.isa.instr.rs1, true);
   decode_op_i(id_src2, simm, true);
