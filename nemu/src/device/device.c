@@ -8,6 +8,7 @@
 #ifdef HAS_IOE
 
 #include <sys/time.h>
+#include <unistd.h>
 #include <signal.h>
 #include <SDL2/SDL.h>
 

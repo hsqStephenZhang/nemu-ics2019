@@ -34,7 +34,6 @@ static inline void update_screen() {
 }
 
 static void vga_io_handler(uint32_t offset, int len, bool is_write) {
-  Log("call vga io handler");
   if (is_write)
     update_screen();
 }
