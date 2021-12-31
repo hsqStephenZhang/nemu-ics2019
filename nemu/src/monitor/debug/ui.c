@@ -96,8 +96,7 @@ static int cmd_info(char *args)
     printf("usage:\n\
     info w: infos about watchpoint\n\
     info r: infos about registers\n\
-    info r xxx: infos about certain register\n\
-    ");
+    info r xxx: infos about certain register\n");
     return 0;
   }
   if (strcasecmp(args, "r") == 0)
