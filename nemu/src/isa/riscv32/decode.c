@@ -4,6 +4,14 @@
 // decode operand helper
 #define make_DopHelper(name) void concat(decode_op_, name) (Operand *op, uint32_t val, bool load_val)
 
+static inline void sext(rtlreg_t *temp, uint32_t width) {
+  uint32_t shift = 32 - width;
+  int32_t num = *temp;
+  num = (num) << shift;
+  num = (num) >> shift;
+  *temp = num;
+}
+
 static inline make_DopHelper(i) {
   op->type = OP_TYPE_IMM;
   op->imm = val;
