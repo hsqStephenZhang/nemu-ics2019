@@ -19,7 +19,6 @@ make_EHelper(andi);
 make_EHelper(slli);
 make_EHelper(sr_li_ai);
 
-
 // R basic
 make_EHelper(add_sub);
 make_EHelper(sll);
