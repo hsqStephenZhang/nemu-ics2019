@@ -1,6 +1,8 @@
 #ifndef COMMON_H
 #define COMMON_H
 
+#define HAS_IOE
+
 #include <am.h>
 #include <amdev.h>
 #include <klib.h>
