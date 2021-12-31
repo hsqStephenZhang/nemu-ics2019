@@ -1,5 +1,10 @@
 #include "common.h"
 
+// for pa2
+#ifndef  HAS_IOE
+#define HAS_IOE
+#endif
+
 #ifdef HAS_IOE
 
 #include "device/map.h"
