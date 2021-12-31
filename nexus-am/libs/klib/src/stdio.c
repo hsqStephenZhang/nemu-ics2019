@@ -162,7 +162,7 @@ int vsprintf(char *out, const char *fmt, va_list ap)
       }
       fmt++;
     default:
-      // printf("unexpected format %c", ch);
+      printf("unexpected format %d", ch);
       assert(0);
     }
   }
