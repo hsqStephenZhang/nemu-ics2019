@@ -116,7 +116,7 @@ VIDEO_Init(
       return -1;
    }
 
-   gpRenderer = SDL_CreateRenderer(gpWindow, -1, SDL_RENDERER_ACCELERATED);
+   gpRenderer = SDL_CreateRenderer(gpWindow, 1, SDL_RENDERER_ACCELERATED);
 
    if (gpRenderer == NULL)
    {
