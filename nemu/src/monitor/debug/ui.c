@@ -74,7 +74,7 @@ static int cmd_new_wp(char *args)
   }
   return 0;
 }
-// 移除监视点
+
 static int cmd_rm_wp(char *args)
 {
   rm_wp(strtol(args, NULL, 10));
