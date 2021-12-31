@@ -51,3 +51,42 @@ make_DHelper(st) {
 
   decode_op_r(id_dest, decinfo.isa.instr.rs2, true);
 }
+
+make_DHelper(I) {
+  int32_t simm = decinfo.isa.instr.simm11_0;
+  sext(&simm, 12);
+  decode_op_r(id_src, decinfo.isa.instr.rs1, true);
+  decode_op_i(id_src2, simm, true);
+  decode_op_r(id_dest, decinfo.isa.instr.rd, false);
+  
+}
+
+make_DHelper(B) {
+  decode_op_r(id_src, decinfo.isa.instr.rs1, true);
+  decode_op_r(id_src2, decinfo.isa.instr.rs2, true);
+
+  t0 = (decinfo.isa.instr.simm12 << 12) | (decinfo.isa.instr.imm11 << 11) | 
+       (decinfo.isa.instr.imm10_5 << 5) | (decinfo.isa.instr.imm4_1 << 1);
+  sext(&t0, 13);
+  decode_op_i(id_dest, t0, true);
+  
+  print_Dop(id_dest->str, OP_STR_SIZE, "0x%x", t0);
+}
+
+make_DHelper(J) {
+  
+  t0 =  (decinfo.isa.instr.simm20 << 20) | (decinfo.isa.instr.imm19_12 << 12) | 
+        (decinfo.isa.instr.imm11_ << 11) | (decinfo.isa.instr.imm10_1 << 1);
+  sext(&t0, 21);
+  
+  decode_op_i(id_src , t0, true);
+  decode_op_r(id_dest, decinfo.isa.instr.rd, false);
+
+  print_Dop(id_src->str, OP_STR_SIZE, "0x%x", t0);
+}
+
+make_DHelper(R) {
+  decode_op_r(id_src, decinfo.isa.instr.rs1, true);
+  decode_op_r(id_src2, decinfo.isa.instr.rs2, true);
+  decode_op_r(id_dest, decinfo.isa.instr.rd, false);
+}

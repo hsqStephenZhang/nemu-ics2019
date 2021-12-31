@@ -48,7 +48,15 @@ make_EHelper(jal) {
 
 make_EHelper(jalr) {
 
-    // TODO: check the reference
+    // TODO: 这个地方并没有完全按照手册来执行
+    // t0 = cpu.pc + 4;
+    // rtl_sr(id_dest->reg, &t0, 4);
+    // rtl_add(&decinfo.jmp_pc, &id_src->val, &id_src2->val);    
+    // interpret_rtl_j(decinfo.jmp_pc);
+
+    // print_asm_template2(jalr);   
+    // difftest_skip_dut(1, 2);
+
     t0 = cpu.pc + 4;
     rtl_sr(id_dest->reg, &t0, 4);
     decinfo.jmp_pc = (id_src->val+id_src2->val)&~1;
