@@ -157,7 +157,7 @@ int vsprintf(char *out, const char *fmt, va_list ap)
       }
       else
       {
-        assert(0);
+        // assert(0);
       }
       fmt++;
     default:
