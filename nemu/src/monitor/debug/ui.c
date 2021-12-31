@@ -132,20 +132,22 @@ static int cmd_info(char *args)
   return 0;
 }
 
+// short name can be null, so check before used it
 static struct
 {
   char *name;
+  char *short_name;
   char *description;
   int (*handler)(char *);
 } cmd_table[] = {
-    {"help", "Display informations about all supported commands", cmd_help},
-    {"c", "Continue the execution of the program", cmd_c},
-    {"q", "Exit NEMU", cmd_q},
+    {"help", "h", "Display informations about all supported commands", cmd_help},
+    {"continue", "c", "Continue the execution of the program", cmd_c},
+    {"quit", "q", "Exit NEMU", cmd_q},
     {"si", "Single step the program", cmd_si},
-    {"info", "info about the monitor", cmd_info},
-    {"w", "new watchpoint", cmd_new_wp},
-    {"d", "remove watchpoint", cmd_rm_wp},
-    {"p", "Evaluate given expression", cmd_expr},
+    {"info", "i", "info about the monitor", cmd_info},
+    {"watchpoint", "w", "new watchpoint", cmd_new_wp},
+    {"delete", "d", "remove watchpoint", cmd_rm_wp},
+    {"print", "p", "Evaluate given expression", cmd_expr},
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
@@ -168,7 +170,7 @@ static int cmd_help(char *args)
   {
     for (i = 0; i < NR_CMD; i++)
     {
-      if (strcmp(arg, cmd_table[i].name) == 0)
+      if (strcmp(arg, cmd_table[i].name) == 0 || (cmd_table[i].short_name != NULL && strcmp(cmd_table[i].short_name, arg) == 0))
       {
         printf("%s - %s\n", cmd_table[i].name, cmd_table[i].description);
         return 0;
