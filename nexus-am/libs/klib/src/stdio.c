@@ -161,7 +161,8 @@ int vsprintf(char *out, const char *fmt, va_list ap)
       }
       fmt++;
     default:
-      assert(0);
+      // assert(0);
+      break;
     }
   }
   return count;
