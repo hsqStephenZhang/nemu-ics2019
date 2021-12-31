@@ -178,4 +178,16 @@ int sprintf(char *out, const char *fmt, ...)
   return count;
 }
 
+// TODO: unimplemented
+int snprintf(char *out, size_t n, const char *fmt, ...)
+{
+  return 0;
+}
+
+// TODO: unimplemented
+int vsnprintf(char *out, size_t n, const char *fmt, va_list ap)
+{
+  return 0;
+}
+
 #endif
