@@ -11,7 +11,6 @@ size_t strlen(const char *s) {
 }
 
 char *strcpy(char* dst,const char* src) {
-  
   size_t i = 0;
   while (src[i] != '\0') {
     dst[i] = src[i];
@@ -27,7 +26,6 @@ char* strncpy(char* dst, const char* src, size_t n) {
   while(src[index] != '\0' && index++ < n) {
     dst[index] = src[index];
   }
-  // 如果src的长度小于n的话，那么就在dst的后面填充'\0'
   while (index < n) {
     dst[index++] = '\0';
   }
