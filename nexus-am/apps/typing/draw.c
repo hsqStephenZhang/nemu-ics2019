@@ -2,8 +2,6 @@
 
 #define BACKGROUND_COLOR 0x2a0a29
 
-//#define SCREEN_STRETCH
-
 static uint32_t canvas[H][W];
 
 static int last_draw_idx = 0;
@@ -100,12 +98,10 @@ void redraw_screen() {
 
   clear_screen();
 
-  /* 绘制每个字符 */
   for (it = characters(); it != NULL; it = it->_next) {
     draw_character(it->text + 'A', it->x, it->y, 0xffffffff);
   }
 
-  /* 绘制命中数、miss数、最后一次按键扫描码和fps */
   const char *key = itoa(last_key_code());
   draw_string(key, 0, H - 8, 0xffffffff);
   hit = itoa(get_hit());
