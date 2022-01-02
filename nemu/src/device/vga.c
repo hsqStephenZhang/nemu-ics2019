@@ -45,7 +45,7 @@ void init_vga()
   char title[128];
   sprintf(title, "%s-NEMU", str(__ISA__));
 
-  SDL_Init(SDL_INIT_VIDEO);
+  SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
   SDL_CreateWindowAndRenderer(SCREEN_W * 2, SCREEN_H * 2, 0, &window, &renderer);
   SDL_SetWindowTitle(window, title);
 
