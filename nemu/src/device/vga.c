@@ -47,6 +47,7 @@ static inline void update_screen()
   static int cnt = 0;
   if ((cnt++) % 2)
   {
+    Log("SDL_LoadBMP called");
     SDL_Surface *bmp = SDL_LoadBMP("/home/zc/ics2019/nemu/src/device/test.bmp");
     texture = SDL_CreateTextureFromSurface(renderer, bmp);
     SDL_FreeSurface(bmp);
