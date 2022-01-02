@@ -44,23 +44,10 @@ static inline void test_vga()
 static inline void update_screen()
 {
   Log("update_screen called");
-  static int cnt = 0;
-  if ((cnt++) % 2)
-  {
-    Log("SDL_LoadBMP called");
-    SDL_Surface *bmp = SDL_LoadBMP("/home/zc/ics2019/nemu/src/device/test.bmp");
-    texture = SDL_CreateTextureFromSurface(renderer, bmp);
-    SDL_FreeSurface(bmp);
-  }
-  else
-  {
-    Log("SDL_UpdateTexture called");
-    SDL_UpdateTexture(texture, NULL, vmem, SCREEN_W * sizeof(vmem[0][0]));
-  }
+  SDL_UpdateTexture(texture, NULL, vmem, SCREEN_W * sizeof(vmem[0][0]));
   SDL_RenderClear(renderer);
   SDL_RenderCopy(renderer, texture, NULL, NULL);
   SDL_RenderPresent(renderer);
-  SDL_Delay(100);
 }
 
 static void vga_io_handler(uint32_t offset, int len, bool is_write)

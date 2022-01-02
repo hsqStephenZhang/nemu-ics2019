@@ -36,6 +36,7 @@ void paddr_write(paddr_t addr, uint32_t data, int len) {
     memcpy(pmem + offset, &data, len);
   }
   else {
+    Log("io map write, addr=%x", addr);
     return map_write(addr, data, len, fetch_mmio_map(addr));
   }
 }
