@@ -37,6 +37,7 @@ size_t __am_video_write(uintptr_t reg, void *buf, size_t size) {
       }
      
       if (ctl->sync) {
+        printf("sync vga\n");
         outl(SYNC_ADDR, 0);
       }
       return size;

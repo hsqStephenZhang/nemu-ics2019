@@ -31,7 +31,6 @@ void __am_video_init() {
   texture = SDL_CreateTexture(renderer,
     SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STATIC, W, H);
   memset(fb, 0, W * H * sizeof(uint32_t));
-  Log("sdl add timer");
   SDL_AddTimer(1000 / FPS, texture_sync, NULL);
 }
 
