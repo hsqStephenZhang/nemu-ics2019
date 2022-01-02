@@ -69,7 +69,7 @@ static int cmd_new_wp(char *args)
 {
   if (!new_wp(args))
   {
-    Log("cmd_setwp: 监视点创建失败\n");
+    Log("cmd_setwp: failed \n");
     return -1;
   }
   return 0;
