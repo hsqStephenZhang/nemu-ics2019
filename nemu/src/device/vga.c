@@ -26,6 +26,20 @@ static SDL_Texture *texture = NULL;
 static uint32_t (*vmem)[SCREEN_W] = NULL;
 static uint32_t *screensize_port_base = NULL;
 
+static inline void test_vga(){
+  SDL_Surface *bmp = SDL_LoadBMP("/home/zc/ics2019/nemu/src/device/test.bmp");
+  texture = SDL_CreateTextureFromSurface(renderer, bmp);
+  SDL_FreeSurface(bmp);
+
+  for (int i = 0; i < 20; i++)
+  {
+    SDL_RenderClear(renderer);
+    SDL_RenderCopy(renderer, texture, NULL, NULL);
+    SDL_RenderPresent(renderer);
+    SDL_Delay(100);
+  }
+}
+
 static inline void update_screen()
 {
   Log("update_screen called");
@@ -33,6 +47,7 @@ static inline void update_screen()
   SDL_RenderClear(renderer);
   SDL_RenderCopy(renderer, texture, NULL, NULL);
   SDL_RenderPresent(renderer);
+  SDL_Delay(100);
 }
 
 static void vga_io_handler(uint32_t offset, int len, bool is_write)
@@ -60,17 +75,7 @@ void init_vga()
 
 #else
 
-  SDL_Surface *bmp = SDL_LoadBMP("/home/zc/ics2019/nemu/src/device/test.bmp");
-  texture = SDL_CreateTextureFromSurface(renderer, bmp);
-  SDL_FreeSurface(bmp);
-
-  for (int i = 0; i < 20; i++)
-  {
-    SDL_RenderClear(renderer);
-    SDL_RenderCopy(renderer, texture, NULL, NULL);
-    SDL_RenderPresent(renderer);
-    SDL_Delay(100);
-  }
+  test_vga();
 
 #endif
 
