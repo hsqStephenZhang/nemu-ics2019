@@ -59,9 +59,8 @@ void init_vga()
 #else
 
   SDL_Surface *bmp = SDL_LoadBMP("/home/zc/ics2019/navy-apps/fsimg/share/pictures/projectn.bmp");
-  SDL_FreeSurface(bmp);
-
   texture = SDL_CreateTextureFromSurface(renderer, bmp);
+  SDL_FreeSurface(bmp);
 
   for (int i = 0; i < 20; i++)
   {
