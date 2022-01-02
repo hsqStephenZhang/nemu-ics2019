@@ -17,6 +17,7 @@ static inline int min(int x, int y) {
 }
 
 static Uint32 texture_sync(Uint32 interval, void *param) {
+  Log("texture_sync");
   SDL_UpdateTexture(texture, NULL, fb, W * sizeof(Uint32));
   SDL_RenderClear(renderer);
   SDL_RenderCopy(renderer, texture, NULL, NULL);

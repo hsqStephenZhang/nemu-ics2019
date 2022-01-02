@@ -49,8 +49,6 @@ void init_vga()
   SDL_CreateWindowAndRenderer(SCREEN_W * 2, SCREEN_H * 2, 0, &window, &renderer);
   SDL_SetWindowTitle(window, title);
 
-  #define SDL_RENDER_TEST
-
 #ifndef SDL_RENDER_TEST
 
   texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
