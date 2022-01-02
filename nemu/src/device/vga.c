@@ -26,7 +26,8 @@ static SDL_Texture *texture = NULL;
 static uint32_t (*vmem)[SCREEN_W] = NULL;
 static uint32_t *screensize_port_base = NULL;
 
-static inline void test_vga(){
+static inline void test_vga()
+{
   SDL_Surface *bmp = SDL_LoadBMP("/home/zc/ics2019/nemu/src/device/test.bmp");
   texture = SDL_CreateTextureFromSurface(renderer, bmp);
   SDL_FreeSurface(bmp);
@@ -43,7 +44,17 @@ static inline void test_vga(){
 static inline void update_screen()
 {
   Log("update_screen called");
-  SDL_UpdateTexture(texture, NULL, vmem, SCREEN_W * sizeof(vmem[0][0]));
+  static int cnt = 0;
+  if ((cnt++) % 2)
+  {
+    SDL_Surface *bmp = SDL_LoadBMP("/home/zc/ics2019/nemu/src/device/test.bmp");
+    texture = SDL_CreateTextureFromSurface(renderer, bmp);
+    SDL_FreeSurface(bmp);
+  }
+  else
+  {
+    SDL_UpdateTexture(texture, NULL, vmem, SCREEN_W * sizeof(vmem[0][0]));
+  }
   SDL_RenderClear(renderer);
   SDL_RenderCopy(renderer, texture, NULL, NULL);
   SDL_RenderPresent(renderer);
