@@ -43,10 +43,19 @@ void init_vga() {
   sprintf(title, "%s-NEMU", str(__ISA__));
 
   SDL_Init(SDL_INIT_VIDEO);
-  SDL_CreateWindowAndRenderer(SCREEN_W * 2, SCREEN_H * 2, 1, &window, &renderer);
+  SDL_CreateWindowAndRenderer(SCREEN_W * 2, SCREEN_H * 2, 0, &window, &renderer);
   SDL_SetWindowTitle(window, title);
-  texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
-      SDL_TEXTUREACCESS_STATIC, SCREEN_W, SCREEN_H);
+  SDL_Surface* bmp = SDL_LoadBMP("/home/zc/ics2019/navy-apps/fsimg/share/pictures/projectn.bmp");
+  // texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
+  //     SDL_TEXTUREACCESS_STATIC, SCREEN_W, SCREEN_H);
+  SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, bmp);
+
+  for (int i = 0; i < 20; i++) {
+		SDL_RenderClear(renderer);
+		SDL_RenderCopy(renderer, texture, NULL, NULL);
+		SDL_RenderPresent(renderer);
+		SDL_Delay(100);
+	}
 
   screensize_port_base = (void *)new_space(8);
   screensize_port_base[0] = ((SCREEN_W) << 16) | (SCREEN_H);
