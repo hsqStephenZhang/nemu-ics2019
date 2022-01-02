@@ -54,6 +54,7 @@ static inline void update_screen()
   }
   else
   {
+    Log("SDL_UpdateTexture called");
     SDL_UpdateTexture(texture, NULL, vmem, SCREEN_W * sizeof(vmem[0][0]));
   }
   SDL_RenderClear(renderer);
