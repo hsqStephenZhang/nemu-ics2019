@@ -1,7 +1,7 @@
 #include "common.h"
 
 // for pa2
-#ifndef  HAS_IOE
+#ifndef HAS_IOE
 #define HAS_IOE
 #endif
 
@@ -23,39 +23,55 @@ static SDL_Window *window = NULL;
 static SDL_Renderer *renderer = NULL;
 static SDL_Texture *texture = NULL;
 
-static uint32_t (*vmem) [SCREEN_W] = NULL;
+static uint32_t (*vmem)[SCREEN_W] = NULL;
 static uint32_t *screensize_port_base = NULL;
 
-static inline void update_screen() {
+static inline void update_screen()
+{
   SDL_UpdateTexture(texture, NULL, vmem, SCREEN_W * sizeof(vmem[0][0]));
   SDL_RenderClear(renderer);
   SDL_RenderCopy(renderer, texture, NULL, NULL);
   SDL_RenderPresent(renderer);
 }
 
-static void vga_io_handler(uint32_t offset, int len, bool is_write) {
+static void vga_io_handler(uint32_t offset, int len, bool is_write)
+{
   if (is_write)
     update_screen();
 }
 
-void init_vga() {
+void init_vga()
+{
   char title[128];
   sprintf(title, "%s-NEMU", str(__ISA__));
 
   SDL_Init(SDL_INIT_VIDEO);
   SDL_CreateWindowAndRenderer(SCREEN_W * 2, SCREEN_H * 2, 0, &window, &renderer);
   SDL_SetWindowTitle(window, title);
-  SDL_Surface* bmp = SDL_LoadBMP("/home/zc/ics2019/navy-apps/fsimg/share/pictures/projectn.bmp");
-  // texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
-  //     SDL_TEXTUREACCESS_STATIC, SCREEN_W, SCREEN_H);
-  SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, bmp);
 
-  for (int i = 0; i < 20; i++) {
-		SDL_RenderClear(renderer);
-		SDL_RenderCopy(renderer, texture, NULL, NULL);
-		SDL_RenderPresent(renderer);
-		SDL_Delay(100);
-	}
+  #define SDL_RENDER_TEST
+
+#ifndef SDL_RENDER_TEST
+
+  texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
+                              SDL_TEXTUREACCESS_STATIC, SCREEN_W, SCREEN_H);
+
+#else
+
+  SDL_Surface *bmp = SDL_LoadBMP("/home/zc/ics2019/navy-apps/fsimg/share/pictures/projectn.bmp");
+  SDL_FreeSurface(bmp);
+
+  texture = SDL_CreateTextureFromSurface(renderer, bmp);
+
+  for (int i = 0; i < 20; i++)
+  {
+    SDL_RenderClear(renderer);
+    SDL_RenderCopy(renderer, texture, NULL, NULL);
+    SDL_RenderPresent(renderer);
+    SDL_Delay(100);
+  }
+
+#endif
 
   screensize_port_base = (void *)new_space(8);
   screensize_port_base[0] = ((SCREEN_W) << 16) | (SCREEN_H);
@@ -65,4 +81,4 @@ void init_vga() {
   vmem = (void *)new_space(0x80000);
   add_mmio_map("vmem", VMEM, (void *)vmem, 0x80000, NULL);
 }
-#endif	/* HAS_IOE */
+#endif /* HAS_IOE */
