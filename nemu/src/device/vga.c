@@ -28,6 +28,7 @@ static uint32_t *screensize_port_base = NULL;
 
 static inline void update_screen()
 {
+  Log("update_screen called");
   SDL_UpdateTexture(texture, NULL, vmem, SCREEN_W * sizeof(vmem[0][0]));
   SDL_RenderClear(renderer);
   SDL_RenderCopy(renderer, texture, NULL, NULL);
