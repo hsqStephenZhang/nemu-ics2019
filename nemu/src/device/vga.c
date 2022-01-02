@@ -58,7 +58,7 @@ void init_vga()
 
 #else
 
-  SDL_Surface *bmp = SDL_LoadBMP("./test/bmp");
+  SDL_Surface *bmp = SDL_LoadBMP("test/bmp");
   texture = SDL_CreateTextureFromSurface(renderer, bmp);
   SDL_FreeSurface(bmp);
 
