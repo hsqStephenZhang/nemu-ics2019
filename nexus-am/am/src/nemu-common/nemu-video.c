@@ -47,7 +47,7 @@ size_t __am_video_write(uintptr_t reg, void *buf, size_t size)
 
     if (ctl->sync)
     {
-      printf ("sync video...\n");
+      printf ("sync video..., address: %x\n", SYNC_ADDR);
       outl(SYNC_ADDR, 1);
     }
     return size;
