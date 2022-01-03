@@ -58,7 +58,7 @@ size_t __am_video_write(uintptr_t reg, void *buf, size_t size)
 void __am_vga_init()
 {
 
-// #define DEBUG_VGA
+#define DEBUG_VGA
 
 #ifdef DEBUG_VGA
   int i;
