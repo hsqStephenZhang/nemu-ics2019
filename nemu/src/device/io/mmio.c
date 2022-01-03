@@ -31,6 +31,9 @@ IOMap *fetch_mmio_map(paddr_t addr)
   // if (mapid != -1){
   //   Log("addr: %x, found map %s\n", addr, maps[mapid].name);
   // }
+  if (addr == 0xa1000104){
+    Log("syncing");
+  }
   if (mapid == sync_num){
     Log("call sync");
   }
