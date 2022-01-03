@@ -6,8 +6,6 @@
 static IOMap maps[NR_MAP] = {};
 static int nr_map = 0;
 
-static int sync_num = 0;
-
 /* device interface */
 void add_mmio_map(char *name, paddr_t addr, uint8_t *space, int len, io_callback_t callback)
 {
