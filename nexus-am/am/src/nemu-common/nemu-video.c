@@ -15,7 +15,7 @@ size_t __am_video_read(uintptr_t reg, void *buf, size_t size)
     // the height and width are both short number, combined by one uint32
     uint32_t screen_info = inl(SCREEN_ADDR);
 
-    info->width = (screen_info >> 16) & 0x0000ffff;
+    info->width = screen_info >> 16;
     info->height = screen_info & 0x0000ffff;
 
     return sizeof(_DEV_VIDEO_INFO_t);
