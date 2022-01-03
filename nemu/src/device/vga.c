@@ -87,17 +87,17 @@ void init_vga()
 
 #endif
 
-  screensize_port_base = (void *)new_space(8);
+  screensize_port_base = (void *)new_space(4);
   screensize_port_base[0] = ((SCREEN_W) << 16) | (SCREEN_H);
-  add_pio_map("screen", SCREEN_PORT, (void *)screensize_port_base, 8, vga_io_handler);
-  add_mmio_map("screen", SCREEN_MMIO, (void *)screensize_port_base, 8, vga_io_handler);
+  add_pio_map("screen", SCREEN_PORT, (void *)screensize_port_base, 4, vga_io_handler);
+  add_mmio_map("screen", SCREEN_MMIO, (void *)screensize_port_base, 4, vga_io_handler);
 
   vmem = (void *)new_space(0x80000);
   add_mmio_map("vmem", VMEM, (void *)vmem, 0x80000, NULL);
 
-  sync_port_base = (void *)new_space(8);
+  sync_port_base = (void *)new_space(4);
   sync_port_base[0] = 0;
-  add_pio_map("sync", SYNC_PORT, (void *)sync_port_base, 8, vga_sync_handler);
-  add_mmio_map("sync", SYNC_MMIO, (void *)sync_port_base, 8, vga_sync_handler);
+  add_pio_map("sync", SYNC_PORT, (void *)sync_port_base, 4, vga_sync_handler);
+  add_mmio_map("sync", SYNC_MMIO, (void *)sync_port_base, 4, vga_sync_handler);
 }
 #endif /* HAS_IOE */
