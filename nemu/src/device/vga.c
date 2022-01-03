@@ -81,7 +81,7 @@ void init_vga()
 #endif
 
   // 32 bit height + width: read only
-  // 32 bit sync: read + write
+  // 32 bit sync flag: read + write
   screensize_port_base = (void *)new_space(8);
   screensize_port_base[0] = ((SCREEN_W) << 16) | (SCREEN_H);
   add_pio_map("screen", SCREEN_PORT, (void *)screensize_port_base, 8, vga_io_handler);
