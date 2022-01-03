@@ -15,12 +15,6 @@ void add_mmio_map(char *name, paddr_t addr, uint8_t *space, int len, io_callback
   maps[nr_map] = (IOMap){.name = name, .low = addr, .high = addr + len - 1, .space = space, .callback = callback};
   Log("Add mmio map '%s' at [0x%08x, 0x%08x], map_id is %d", maps[nr_map].name, maps[nr_map].low, maps[nr_map].high, nr_map);
 
-  if (strcmp(maps[nr_map].name, "sync") == 0)
-  {
-    sync_num = nr_map;
-    Log("sync number is %d", sync_num);
-  }
-
   nr_map++;
 }
 
@@ -31,11 +25,5 @@ IOMap *fetch_mmio_map(paddr_t addr)
   // if (mapid != -1){
   //   Log("addr: %x, found map %s\n", addr, maps[mapid].name);
   // }
-  if (addr == 0xa1000104){
-    Log("syncing, mapid is:%d, sync_num is:%d\n", mapid, sync_num);
-  }
-  if (mapid == sync_num){
-    Log("call sync");
-  }
   return (mapid == -1 ? NULL : &maps[mapid]);
 }
