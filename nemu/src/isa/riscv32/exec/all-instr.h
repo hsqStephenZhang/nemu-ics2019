@@ -28,6 +28,7 @@ make_EHelper(xor);
 make_EHelper(slr_sra);
 make_EHelper(or);
 make_EHelper(and);
+
 // R M
 make_EHelper(mul);
 make_EHelper(mulh);

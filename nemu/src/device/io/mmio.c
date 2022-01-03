@@ -7,17 +7,21 @@ static IOMap maps[NR_MAP] = {};
 static int nr_map = 0;
 
 /* device interface */
-void add_mmio_map(char *name, paddr_t addr, uint8_t* space, int len, io_callback_t callback) {
+void add_mmio_map(char *name, paddr_t addr, uint8_t *space, int len, io_callback_t callback)
+{
   assert(nr_map < NR_MAP);
-  maps[nr_map] = (IOMap){ .name = name, .low = addr, .high = addr + len - 1,
-    .space = space, .callback = callback };
-  Log("Add mmio map '%s' at [0x%08x, 0x%08x]", maps[nr_map].name, maps[nr_map].low, maps[nr_map].high);
+  maps[nr_map] = (IOMap){.name = name, .low = addr, .high = addr + len - 1, .space = space, .callback = callback};
+  Log("Add mmio map '%s' at [0x%08x, 0x%08x], map_id is %d", maps[nr_map].name, maps[nr_map].low, maps[nr_map].high, nr_map);
 
-  nr_map ++;
+  nr_map++;
 }
 
 /* bus interface */
-IOMap* fetch_mmio_map(paddr_t addr) {
+IOMap *fetch_mmio_map(paddr_t addr)
+{
   int mapid = find_mapid_by_addr(maps, nr_map, addr);
+  // if (mapid != -1){
+  //   Log("addr: %x, found map %s\n", addr, maps[mapid].name);
+  // }
   return (mapid == -1 ? NULL : &maps[mapid]);
 }

@@ -69,7 +69,7 @@ static int cmd_new_wp(char *args)
 {
   if (!new_wp(args))
   {
-    Log("cmd_setwp: 监视点创建失败\n");
+    Log("cmd_setwp: failed \n");
     return -1;
   }
   return 0;
@@ -132,6 +132,47 @@ static int cmd_info(char *args)
   return 0;
 }
 
+static int cmd_scan(char *args)
+{
+  // `x N EXPR`, e.g. x 10 $esp
+  char *N_str = strtok(NULL, " ");
+
+  char *EXPR_str = strtok(NULL, "");
+  if (N_str && EXPR_str)
+  {
+    long N = strtol(N_str, NULL, 10);
+    bool success = false;
+    uint32_t EXPR = expr(EXPR_str, &success);
+    if (!success)
+    {
+      Log("cmd_scan: please check your expression");
+      return -1;
+    }
+    Log("cmd_scan: x %ld 0x%08x\n", N, EXPR);
+    long count = 0;
+    for (long offset = 0; offset < N; offset++)
+    {
+      printf("0x");
+      for (int i = 0; i < 4; i++)
+      {
+        printf("%02x", pmem[EXPR + offset * 4 + i]);
+        count++;
+      }
+      printf(" ");
+      if (count != 0 && count % 8 == 0)
+      {
+        printf("\n");
+      }
+    }
+    return 0;
+  }
+  else
+  {
+    Log("cmd_scan: format error:  %s\n", args);
+  }
+  return -1;
+}
+
 // short name can be null, so check before used it
 static struct
 {
@@ -148,6 +189,7 @@ static struct
     {"watchpoint", "w", "new watchpoint", cmd_new_wp},
     {"delete", "d", "remove watchpoint", cmd_rm_wp},
     {"print", "p", "Evaluate given expression", cmd_expr},
+    {"scan", "x", "scan memory", cmd_scan},
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))

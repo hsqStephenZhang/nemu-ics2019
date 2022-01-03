@@ -1,7 +1,7 @@
 #include "common.h"
 
 // for pa2
-#ifndef  HAS_IOE
+#ifndef HAS_IOE
 #define HAS_IOE
 #endif
 
@@ -10,6 +10,7 @@
 #include "device/map.h"
 #include <SDL2/SDL.h>
 
+// 显存
 #define VMEM 0xa0000000
 
 #define SCREEN_PORT 0x100 // Note that this is not the standard
@@ -23,37 +24,82 @@ static SDL_Window *window = NULL;
 static SDL_Renderer *renderer = NULL;
 static SDL_Texture *texture = NULL;
 
-static uint32_t (*vmem) [SCREEN_W] = NULL;
+static uint32_t (*vmem)[SCREEN_W] = NULL;
 static uint32_t *screensize_port_base = NULL;
+static uint32_t *sync_port_base = NULL;
 
-static inline void update_screen() {
+static inline void test_vga()
+{
+  SDL_Surface *bmp = SDL_LoadBMP("/home/zc/ics2019/nemu/src/device/test.bmp");
+  texture = SDL_CreateTextureFromSurface(renderer, bmp);
+  SDL_FreeSurface(bmp);
+
+  for (int i = 0; i < 20; i++)
+  {
+    SDL_RenderClear(renderer);
+    SDL_RenderCopy(renderer, texture, NULL, NULL);
+    SDL_RenderPresent(renderer);
+    SDL_Delay(100);
+  }
+}
+
+static inline void update_screen()
+{
+  Log("update_screen called");
   SDL_UpdateTexture(texture, NULL, vmem, SCREEN_W * sizeof(vmem[0][0]));
   SDL_RenderClear(renderer);
   SDL_RenderCopy(renderer, texture, NULL, NULL);
   SDL_RenderPresent(renderer);
 }
 
-static void vga_io_handler(uint32_t offset, int len, bool is_write) {
+static void vga_io_handler(uint32_t offset, int len, bool is_write)
+{
+  // Log("vga_io_handler called");
   if (is_write)
     update_screen();
 }
 
-void init_vga() {
+static void vga_sync_handler(uint32_t offset, int len, bool is_write)
+{
+  Log("vga_sync_handler called");
+  if (is_write)
+    update_screen();
+}
+
+void init_vga()
+{
   char title[128];
   sprintf(title, "%s-NEMU", str(__ISA__));
 
   SDL_Init(SDL_INIT_VIDEO);
   SDL_CreateWindowAndRenderer(SCREEN_W * 2, SCREEN_H * 2, 0, &window, &renderer);
   SDL_SetWindowTitle(window, title);
-  texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
-      SDL_TEXTUREACCESS_STATIC, SCREEN_W, SCREEN_H);
 
-  screensize_port_base = (void *)new_space(8);
+// #define SDL_RENDER_TEST
+
+#ifndef SDL_RENDER_TEST
+
+  texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
+                              SDL_TEXTUREACCESS_STATIC, SCREEN_W, SCREEN_H);
+
+#else
+
+  test_vga();
+
+#endif
+
+  // change the space from 8 to 4
+  screensize_port_base = (void *)new_space(4);
   screensize_port_base[0] = ((SCREEN_W) << 16) | (SCREEN_H);
-  add_pio_map("screen", SCREEN_PORT, (void *)screensize_port_base, 8, vga_io_handler);
-  add_mmio_map("screen", SCREEN_MMIO, (void *)screensize_port_base, 8, vga_io_handler);
+  add_pio_map("screen", SCREEN_PORT, (void *)screensize_port_base, 4, vga_io_handler);
+  add_mmio_map("screen", SCREEN_MMIO, (void *)screensize_port_base, 4, vga_io_handler);
 
   vmem = (void *)new_space(0x80000);
   add_mmio_map("vmem", VMEM, (void *)vmem, 0x80000, NULL);
+
+  sync_port_base = (void *)new_space(4);
+  sync_port_base[0] = 0;
+  add_pio_map("sync", SYNC_PORT, (void *)sync_port_base, 4, vga_sync_handler);
+  add_mmio_map("sync", SYNC_MMIO, (void *)sync_port_base, 4, vga_sync_handler);
 }
-#endif	/* HAS_IOE */
+#endif /* HAS_IOE */
