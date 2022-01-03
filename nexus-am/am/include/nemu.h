@@ -25,7 +25,7 @@
 # define KBD_ADDR     0xa1000060
 # define RTC_ADDR     0xa1000048
 # define SCREEN_ADDR  0xa1000100
-# define SYNC_ADDR    0xa1000104
+# define SYNC_ADDR    0xa1000108
 # define FB_ADDR      0xa0000000
 #endif
 

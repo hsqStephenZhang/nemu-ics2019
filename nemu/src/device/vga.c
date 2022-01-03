@@ -10,13 +10,13 @@
 #include "device/map.h"
 #include <SDL2/SDL.h>
 
-// 显存
+// frame buffer
 #define VMEM 0xa0000000
 
 #define SCREEN_PORT 0x100 // Note that this is not the standard
 #define SCREEN_MMIO 0xa1000100
 #define SYNC_PORT 0x104 // Note that this is not the standard
-#define SYNC_MMIO 0xa1000104
+#define SYNC_MMIO 0xa1000108
 #define SCREEN_H 300
 #define SCREEN_W 400
 
@@ -88,8 +88,7 @@ void init_vga()
 
 #endif
 
-  // change the space from 8 to 4
-  screensize_port_base = (void *)new_space(4);
+  screensize_port_base = (void *)new_space(8);
   screensize_port_base[0] = ((SCREEN_W) << 16) | (SCREEN_H);
   add_pio_map("screen", SCREEN_PORT, (void *)screensize_port_base, 4, vga_io_handler);
   add_mmio_map("screen", SCREEN_MMIO, (void *)screensize_port_base, 4, vga_io_handler);
