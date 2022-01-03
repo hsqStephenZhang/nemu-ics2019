@@ -10,6 +10,7 @@
 #include "device/map.h"
 #include <SDL2/SDL.h>
 
+// 显存
 #define VMEM 0xa0000000
 
 #define SCREEN_PORT 0x100 // Note that this is not the standard
