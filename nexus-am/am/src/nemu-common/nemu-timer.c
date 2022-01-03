@@ -8,6 +8,7 @@ size_t __am_timer_read(uintptr_t reg, void *buf, size_t size) {
   switch (reg) {
     case _DEVREG_TIMER_UPTIME: {
       _DEV_TIMER_UPTIME_t *uptime = (_DEV_TIMER_UPTIME_t *)buf;
+      // read the value by io map
       uint32_t seconds = inl(RTC_ADDR);
       uptime->hi = 0;
       uptime->lo = seconds - boot_time_sec;
@@ -28,5 +29,6 @@ size_t __am_timer_read(uintptr_t reg, void *buf, size_t size) {
 }
 
 void __am_timer_init() {
+  // read the value by io map
   boot_time_sec = inl(RTC_ADDR);
 }

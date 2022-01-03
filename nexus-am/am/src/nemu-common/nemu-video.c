@@ -11,9 +11,11 @@ size_t __am_video_read(uintptr_t reg, void *buf, size_t size)
   case _DEVREG_VIDEO_INFO:
   {
     _DEV_VIDEO_INFO_t *info = (_DEV_VIDEO_INFO_t *)buf;
+
+    // the height and width are both short number, combined by one uint32
     uint32_t screen_info = inl(SCREEN_ADDR);
 
-    info->width = screen_info >> 16;
+    info->width = (screen_info >> 16) & 0x0000ffff;
     info->height = screen_info & 0x0000ffff;
 
     return sizeof(_DEV_VIDEO_INFO_t);

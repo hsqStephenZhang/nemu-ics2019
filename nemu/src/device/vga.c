@@ -25,6 +25,7 @@ static SDL_Texture *texture = NULL;
 
 static uint32_t (*vmem)[SCREEN_W] = NULL;
 static uint32_t *screensize_port_base = NULL;
+static uint32_t *sync_port_base = NULL;
 
 static inline void test_vga()
 {
@@ -52,6 +53,13 @@ static inline void update_screen()
 static void vga_io_handler(uint32_t offset, int len, bool is_write)
 {
   Log("vga_io_handler called");
+  if (is_write)
+    update_screen();
+}
+
+static void vga_sync_handler(uint32_t offset, int len, bool is_write)
+{
+  Log("vga_sync_handler called");
   if (is_write)
     update_screen();
 }
@@ -85,5 +93,10 @@ void init_vga()
 
   vmem = (void *)new_space(0x80000);
   add_mmio_map("vmem", VMEM, (void *)vmem, 0x80000, NULL);
+
+  sync_port_base = (void *)new_space(8);
+  sync_port_base[0] = 0;
+  add_pio_map("sync", SYNC_PORT, (void *)sync_port_base, 8, vga_sync_handler);
+  add_mmio_map("sync", SYNC_MMIO, (void *)sync_port_base, 8, vga_sync_handler);
 }
 #endif /* HAS_IOE */
