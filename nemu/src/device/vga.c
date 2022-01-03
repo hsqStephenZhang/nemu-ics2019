@@ -45,6 +45,7 @@ static inline void test_vga()
 
 static inline void update_screen()
 {
+  Log("update_screen called");
   SDL_UpdateTexture(texture, NULL, vmem, SCREEN_W * sizeof(vmem[0][0]));
   SDL_RenderClear(renderer);
   SDL_RenderCopy(renderer, texture, NULL, NULL);
@@ -87,7 +88,7 @@ void init_vga()
 
 #endif
 
-  // from space 8 to space 4
+  // change the space from 8 to 4
   screensize_port_base = (void *)new_space(4);
   screensize_port_base[0] = ((SCREEN_W) << 16) | (SCREEN_H);
   add_pio_map("screen", SCREEN_PORT, (void *)screensize_port_base, 4, vga_io_handler);
