@@ -59,7 +59,6 @@ static Finfo file_table[] __attribute__((used)) = {
 
 int fs_open(const char *pathname, int flags, int mode)
 {
-  // Log("尝试打开文件%s", pathname);
   for (int i = 0; i < NR_FILES; i++)
   {
     if (!strcmp(pathname, file_table[i].name))
@@ -67,7 +66,6 @@ int fs_open(const char *pathname, int flags, int mode)
       return i;
     }
   }
-  // assert(0 && "Can't find file");
   assert(0);
 }
 
@@ -75,7 +73,6 @@ size_t fs_read(int fd, void *buf, size_t len)
 {
   if (fd >= 3 && (file_table[fd].open_offset + len >= file_table[fd].size))
   {
-    // 如果要读的内容已经超过了文件剩余的内容，那么就要修改len
     if (file_table[fd].size > file_table[fd].open_offset)
       len = file_table[fd].size - file_table[fd].open_offset;
     else
@@ -83,12 +80,10 @@ size_t fs_read(int fd, void *buf, size_t len)
   }
   if (!file_table[fd].read)
   {
-    // 说明是普通文件，那么就使用ramdisk_read操作
     ramdisk_read(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
   }
   else
   {
-    // 如果是std相关输入输出流，会直接到invalid？
     len = file_table[fd].read(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
   }
   file_table[fd].open_offset += len;
@@ -97,7 +92,6 @@ size_t fs_read(int fd, void *buf, size_t len)
 
 size_t fs_write(int fd, const void *buf, size_t len)
 {
-  // printf("fs_write = %s\n", (char *)buf);
   if (fd >= 5 && (file_table[fd].open_offset + len > file_table[fd].size))
   {
     if (file_table[fd].size > file_table[fd].open_offset)
