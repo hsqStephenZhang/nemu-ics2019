@@ -6,6 +6,8 @@
 #include <time.h>
 #include "syscall.h"
 
+extern uint32_t end;
+
 // helper macros
 #define _concat(x, y) x ## y
 #define concat(x, y) _concat(x, y)
@@ -39,6 +41,7 @@
 #endif
 
 intptr_t _syscall_(intptr_t type, intptr_t a0, intptr_t a1, intptr_t a2) {
+  // assert(0);
   register intptr_t _gpr1 asm (GPR1) = type;
   register intptr_t _gpr2 asm (GPR2) = a0;
   register intptr_t _gpr3 asm (GPR3) = a1;
@@ -54,43 +57,62 @@ void _exit(int status) {
 }
 
 int _open(const char *path, int flags, mode_t mode) {
-  _exit(SYS_open);
-  return 0;
+  // _exit(SYS_open);
+
+  // return 0;
+  return _syscall_(SYS_open, (intptr_t)path, flags, mode);
 }
 
 int _write(int fd, void *buf, size_t count) {
-  _exit(SYS_write);
-  return 0;
+  // 调用syscall
+  return _syscall_(SYS_write, fd, (intptr_t)buf, count);
+  // _exit(SYS_write);
+  // return 0;
 }
 
 void *_sbrk(intptr_t increment) {
+  
+  static int program_break = 0;
+  if (program_break == 0) {
+    program_break = &end;
+  }
+  int ret = program_break;
+  if (!_syscall_(SYS_brk, program_break + increment, 0, 0)) {
+    program_break += increment;
+    return (void *)ret;
+  }
   return (void *)-1;
 }
 
 int _read(int fd, void *buf, size_t count) {
-  _exit(SYS_read);
-  return 0;
+  // _exit(SYS_read);
+  // return 0;
+  return _syscall_(SYS_read, fd, (intptr_t)buf, count);
 }
 
 int _close(int fd) {
-  _exit(SYS_close);
-  return 0;
+  // _exit(SYS_close);
+  // return 0;
+  return _syscall_(SYS_close, fd, 0, 0);
 }
 
 off_t _lseek(int fd, off_t offset, int whence) {
-  _exit(SYS_lseek);
-  return 0;
+  // _exit(SYS_lseek);
+  // return 0;
+  return _syscall_(SYS_lseek, fd, (intptr_t)offset, whence);
 }
 
 int _execve(const char *fname, char * const argv[], char *const envp[]) {
-  _exit(SYS_execve);
-  return 0;
+  // _exit(SYS_execve);
+  // return 0;
+  return _syscall_(SYS_execve, fname, (intptr_t)argv, (intptr_t)envp);
 }
 
 // The code below is not used by Nanos-lite.
 // But to pass linking, they are defined as dummy functions
 
 int _fstat(int fd, struct stat *buf) {
+  // assert(0);
   return 0;
 }
 

@@ -58,7 +58,6 @@ _Context *do_syscall(_Context *c)
     c->GPRx = do_write(a[1], (void *)(a[2]), a[3]);
     break;
   case SYS_kill:
-    break;
   case SYS_getpid:
     break;
   case SYS_close:
@@ -71,9 +70,7 @@ _Context *do_syscall(_Context *c)
     c->GPRx = do_brk(a[1]);
     break;
   case SYS_fstat:
-    break;
   case SYS_time:
-    break;
   case SYS_signal:
     break;
   case SYS_execve:
