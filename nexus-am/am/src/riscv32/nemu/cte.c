@@ -7,8 +7,13 @@ _Context* __am_irq_handle(_Context *c) {
   _Context *next = c;
   if (user_handler) {
     _Event ev = {0};
-    switch (c->cause) {
-      default: ev.event = _EVENT_ERROR; break;
+    if (c->cause == -1) {
+      ev.event = _EVENT_YIELD;
+    } else if (c->cause >= 0 && c->cause <= 20) {
+      ev.event = _EVENT_SYSCALL;
+    } else {
+      printf("event error: %d\n", c->cause);
+      ev.event = _EVENT_ERROR;
     }
 
     next = user_handler(ev, c);

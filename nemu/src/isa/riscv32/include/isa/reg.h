@@ -59,4 +59,8 @@ static inline const char* reg_name(int index, int width) {
   return regsl[index];
 }
 
+// csr read/write functions
+rtlreg_t csr_read(int index);
+void csr_write(int index, rtlreg_t val);
+
 #endif
