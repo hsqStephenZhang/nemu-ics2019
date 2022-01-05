@@ -19,6 +19,7 @@ int do_read(int fd, void *buf, size_t count)
 
 int do_write(int fd, const void *buf, size_t count)
 {
+  Log("fd: %d, count:%d", fd, count);
   return fs_write(fd, buf, count);
 }
 
@@ -37,7 +38,7 @@ _Context *do_syscall(_Context *c)
   uintptr_t a[4];
   a[0] = c->GPR1;
 
-  Log("do_syscall %d",a[0]);
+  Log("do_syscall %d", a[0]);
 
   switch (a[0])
   {
