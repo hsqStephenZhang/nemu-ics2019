@@ -19,7 +19,7 @@ int do_read(int fd, void *buf, size_t count)
 
 int do_write(int fd, const void *buf, size_t count)
 {
-  return 0;
+  return fs_write(fd, buf, count);
 }
 
 size_t do_lseek(int fd, size_t offset, int whence)

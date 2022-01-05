@@ -57,17 +57,11 @@ void _exit(int status) {
 }
 
 int _open(const char *path, int flags, mode_t mode) {
-  // _exit(SYS_open);
-
-  // return 0;
   return _syscall_(SYS_open, (intptr_t)path, flags, mode);
 }
 
 int _write(int fd, void *buf, size_t count) {
-  // 调用syscall
   return _syscall_(SYS_write, fd, (intptr_t)buf, count);
-  // _exit(SYS_write);
-  // return 0;
 }
 
 void *_sbrk(intptr_t increment) {
@@ -91,20 +85,14 @@ int _read(int fd, void *buf, size_t count) {
 }
 
 int _close(int fd) {
-  // _exit(SYS_close);
-  // return 0;
   return _syscall_(SYS_close, fd, 0, 0);
 }
 
 off_t _lseek(int fd, off_t offset, int whence) {
-  // _exit(SYS_lseek);
-  // return 0;
   return _syscall_(SYS_lseek, fd, (intptr_t)offset, whence);
 }
 
 int _execve(const char *fname, char * const argv[], char *const envp[]) {
-  // _exit(SYS_execve);
-  // return 0;
   return _syscall_(SYS_execve, fname, (intptr_t)argv, (intptr_t)envp);
 }
 
@@ -112,7 +100,6 @@ int _execve(const char *fname, char * const argv[], char *const envp[]) {
 // But to pass linking, they are defined as dummy functions
 
 int _fstat(int fd, struct stat *buf) {
-  // assert(0);
   return 0;
 }
 
