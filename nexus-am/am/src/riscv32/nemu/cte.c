@@ -1,23 +1,31 @@
 #include <am.h>
 #include <riscv32.h>
 
-static _Context* (*user_handler)(_Event, _Context*) = NULL;
+static _Context *(*user_handler)(_Event, _Context *) = NULL;
 
-_Context* __am_irq_handle(_Context *c) {
+_Context *__am_irq_handle(_Context *c)
+{
   _Context *next = c;
-  if (user_handler) {
+  if (user_handler)
+  {
     _Event ev = {0};
-    if (c->cause == -1) {
+    if (c->cause == -1)
+    {
       ev.event = _EVENT_YIELD;
-    } else if (c->cause >= 0 && c->cause <= 20) {
+    }
+    else if (c->cause >= 0 && c->cause <= 20)
+    {
       ev.event = _EVENT_SYSCALL;
-    } else {
-      printf("event error: %d\n", c->cause);
+    }
+    else
+    {
+      printf("\33[1;35m[%s,%d,%s] event error, cause: %d \33[0m\n", __FILE__, __LINE__, __func__, c->cause);
       ev.event = _EVENT_ERROR;
     }
 
     next = user_handler(ev, c);
-    if (next == NULL) {
+    if (next == NULL)
+    {
       next = c;
     }
   }
@@ -27,9 +35,12 @@ _Context* __am_irq_handle(_Context *c) {
 
 extern void __am_asm_trap(void);
 
-int _cte_init(_Context*(*handler)(_Event, _Context*)) {
+int _cte_init(_Context *(*handler)(_Event, _Context *))
+{
   // initialize exception entry
-  asm volatile("csrw stvec, %0" : : "r"(__am_asm_trap));
+  asm volatile("csrw stvec, %0"
+               :
+               : "r"(__am_asm_trap));
 
   // register event handler
   user_handler = handler;
@@ -37,17 +48,21 @@ int _cte_init(_Context*(*handler)(_Event, _Context*)) {
   return 0;
 }
 
-_Context *_kcontext(_Area stack, void (*entry)(void *), void *arg) {
+_Context *_kcontext(_Area stack, void (*entry)(void *), void *arg)
+{
   return NULL;
 }
 
-void _yield() {
+void _yield()
+{
   asm volatile("li a7, -1; ecall");
 }
 
-int _intr_read() {
+int _intr_read()
+{
   return 0;
 }
 
-void _intr_write(int enable) {
+void _intr_write(int enable)
+{
 }

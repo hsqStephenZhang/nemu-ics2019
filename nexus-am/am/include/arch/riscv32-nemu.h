@@ -1,6 +1,7 @@
 #ifndef __ARCH_H__
 #define __ARCH_H__
 
+// adjust the order according to trap.S
 struct _Context {
   uintptr_t gpr[32], cause, status, epc;
   struct _AddressSpace *as;
