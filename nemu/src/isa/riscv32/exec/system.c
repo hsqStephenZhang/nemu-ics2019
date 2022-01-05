@@ -62,13 +62,13 @@ make_EHelper(ECALL_EBREAK)
     {
     case 0:
       // ECALL
-      Log("ecall");
+      // Log("ecall");
       raise_intr(reg_l(17), cpu.pc);
       print_asm_template1(ecall);
       break;
     case 1:
       // EBREAK
-      Log("EBREAK");
+      // Log("EBREAK");
       TODO();
       break;
     case 258:
