@@ -23,10 +23,6 @@ int main()
 
   init_device();
 
-#ifndef HAS_CTE
-#define HAS_CTE
-#endif
-
 #ifdef HAS_CTE
   init_irq();
 #endif
