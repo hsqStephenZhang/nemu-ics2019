@@ -102,7 +102,6 @@ size_t fs_write(int fd, const void *buf, size_t len)
   }
   if (!file_table[fd].write)
   {
-    // Log("文件编号fd为%d, write函数为NULL? %d", fd, file_table[fd].write == NULL);
     ramdisk_write(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
   }
   else

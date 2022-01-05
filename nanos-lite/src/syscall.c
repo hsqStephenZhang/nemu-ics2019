@@ -14,6 +14,7 @@ int do_close(int fd)
 
 int do_read(int fd, void *buf, size_t count)
 {
+  Log("fd: %d, count:%d", fd, count);
   return 0;
 }
 
