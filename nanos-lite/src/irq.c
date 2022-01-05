@@ -5,8 +5,8 @@ extern _Context* do_syscall(_Context *c);
 
 static _Context* do_event(_Event e, _Context* c) {
   switch (e.event) {
-    case _EVENT_YIELD   : printf("_EVENT_YIELD \n");  break;
-    case _EVENT_SYSCALL : printf("_EVENT_SYSCALL \n"); do_syscall(c);         break;
+    case _EVENT_YIELD   : Log("_EVENT_YIELD \n");  break;
+    case _EVENT_SYSCALL : Log("_EVENT_SYSCALL \n"); do_syscall(c);         break;
     default: panic("unimplemented event ID = %d", e.event);
   }
 
