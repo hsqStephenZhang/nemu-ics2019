@@ -11,7 +11,6 @@
 #endif
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
-  Log("loading");
   Elf_Ehdr Ehdr;
   int fd = fs_open(filename, 0, 0);
   fs_lseek(fd, 0, SEEK_SET);
@@ -29,6 +28,8 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
           ((char*)Phdr.p_vaddr)[i] = 0;
       }
   }
+
+  Log("loading finished");
 
   return Ehdr.e_entry;
 }
