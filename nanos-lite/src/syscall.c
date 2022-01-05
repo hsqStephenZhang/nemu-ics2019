@@ -14,13 +14,13 @@ int do_close(int fd)
 
 int do_read(int fd, void *buf, size_t count)
 {
-  Log("fd: %d, count:%d", fd, count);
+  // Log("fd: %d, count:%d", fd, count);
   return 0;
 }
 
 int do_write(int fd, const void *buf, size_t count)
 {
-  Log("fd: %d, count:%d", fd, count);
+  // Log("fd: %d, count:%d", fd, count);
   return fs_write(fd, buf, count);
 }
 
@@ -41,8 +41,6 @@ _Context *do_syscall(_Context *c)
   a[1] = c->GPR2;
   a[2] = c->GPR3;
   a[3] = c->GPR4;
-
-  Log("do_syscall %d", a[0]);
 
   switch (a[0])
   {
