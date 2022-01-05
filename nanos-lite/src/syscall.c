@@ -1,21 +1,26 @@
 #include "common.h"
 #include "syscall.h"
 
+static int __brk;
+
 int do_open(const char *path, int flags, int mode)
 {
-  TODO();
-  return 0;
+  return fs_open(path, flags, mode);
 }
 
 int do_close(int fd)
 {
-  return 0;
+  return fs_close(fd);
 }
 
 int do_read(int fd, void *buf, size_t count)
 {
   // Log("fd: %d, count:%d", fd, count);
-  return 0;
+  if (fd >= 0 && fd <= 2)
+  {
+    return 0;
+  }
+  return fs_read(fd, buf, count);
 }
 
 int do_write(int fd, const void *buf, size_t count)
@@ -26,11 +31,12 @@ int do_write(int fd, const void *buf, size_t count)
 
 size_t do_lseek(int fd, size_t offset, int whence)
 {
-  return 0;
+  return fs_lseek(fd, offset, whence);
 }
 
 int do_brk(int addr)
 {
+  __brk = addr;
   return 0;
 }
 
