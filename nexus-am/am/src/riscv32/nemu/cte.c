@@ -1,6 +1,8 @@
 #include <am.h>
 #include <riscv32.h>
 
+#define NUM_SYSCALL 20
+
 static _Context *(*user_handler)(_Event, _Context *) = NULL;
 
 _Context *__am_irq_handle(_Context *c)
@@ -13,7 +15,7 @@ _Context *__am_irq_handle(_Context *c)
     {
       ev.event = _EVENT_YIELD;
     }
-    else if (c->cause >= 0 && c->cause <= 20)
+    else if (c->cause >= 0 && c->cause < NUM_SYSCALL)
     {
       ev.event = _EVENT_SYSCALL;
     }
