@@ -11,7 +11,6 @@
 #endif
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
-  Log("enter loader");
   Elf_Ehdr Ehdr;
   int fd = fs_open(filename, 0, 0);
   fs_lseek(fd, 0, SEEK_SET);
