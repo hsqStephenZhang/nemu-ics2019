@@ -2,7 +2,6 @@
 #define __COMMON_H__
 
 #define HAS_IOE
-#define HAS_CTE
 
 #define DEBUG
 //#define DIFF_TEST
