@@ -37,6 +37,8 @@ _Context *do_syscall(_Context *c)
   uintptr_t a[4];
   a[0] = c->GPR1;
 
+  Log("do_syscall %d",a[0]);
+
   switch (a[0])
   {
   case SYS_exit:
