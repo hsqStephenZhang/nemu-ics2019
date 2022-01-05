@@ -39,15 +39,19 @@ make_EHelper(ECALL_EBREAK) {
     if (decinfo.isa.instr.rd == 0 && decinfo.isa.instr.rs1 == 0) {
         switch (decinfo.isa.instr.simm11_0) {
           case 0: 
+            // ECALL
+            Log("ecall");
             raise_intr(reg_l(17), cpu.pc); 
             print_asm_template1(ecall); 
             break;
           case 1: 
             // EBREAK
+            Log("EBREAK");
             TODO(); 
             break;
           case 258: 
             // SRET
+            Log("SRET");
             SRET(); 
             print_asm_template3(sret); 
             break;
