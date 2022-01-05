@@ -73,6 +73,7 @@ _Context *do_syscall(_Context *c)
     break;
   case SYS_execve:
     printf("%s\n", a[1]);
+    void naive_uload(int, const char *);
     naive_uload(NULL, (const char *)a[1]);
     c->GPR2 = SYS_exit;
     do_syscall(c);
