@@ -63,6 +63,7 @@ int fs_open(const char *pathname, int flags, int mode)
   {
     if (!strcmp(pathname, file_table[i].name))
     {
+      Log("find file %s", pathname);
       return i;
     }
   }
