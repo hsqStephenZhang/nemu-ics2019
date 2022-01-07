@@ -73,7 +73,7 @@ make_EHelper(ECALL_EBREAK)
       break;
     case 258:
       // SRET
-      Log("SRET");
+      // Log("SRET");
       SRET();
       print_asm_template3(sret);
       break;
