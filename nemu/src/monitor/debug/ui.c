@@ -225,10 +225,10 @@ static struct
     {"delete", "d", "remove watchpoint", cmd_rm_wp},
     {"print", "p", "Evaluate given expression", cmd_expr},
     {"scan", "x", "scan memory", cmd_scan},
-    {"detach",NULL, "detach", cmd_detach},
-    {"attach", NULL, "attach", cmd_attach},
-    {"save", NULL, "save", cmd_save},
-    {"load", NULL, "load", cmd_load},
+    {"detach",NULL, "difftest detach", cmd_detach},
+    {"attach", NULL, "difftest attach", cmd_attach},
+    {"save", NULL, "save, usage: save [path]", cmd_save},
+    {"load", NULL, "load, usage: save [path]", cmd_load},
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
