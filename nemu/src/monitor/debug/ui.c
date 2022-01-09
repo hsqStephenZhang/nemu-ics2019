@@ -186,6 +186,26 @@ static int cmd_attach(char *args) {
 	return 0;
 }
 
+static int cmd_save(char *args) {
+	char *arg = strtok(NULL, "");
+	if (arg == NULL) {
+		printf("Usage: save [path]\n");
+		return 0;
+	}
+	isa_take_snapshot(arg);
+	return 0;
+}
+
+static int cmd_load(char *args) {
+	char *arg = strtok(NULL, "");
+	if (arg == NULL) {
+		printf("Usage: load [path]\n");
+		return 0;
+	}
+	isa_recover_snapshot(arg);
+	return 0;
+}
+
 // short name can be null, so check before used it
 static struct
 {
@@ -205,6 +225,8 @@ static struct
     {"scan", "x", "scan memory", cmd_scan},
     {"detach",NULL, "detach", cmd_detach},
     {"attach", NULL, "attach", cmd_attach},
+    {"save", NULL, "save", cmd_save},
+    {"load", NULL, "load", cmd_load},
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))

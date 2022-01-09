@@ -8,6 +8,9 @@ void (*ref_difftest_getregs)(void *c) = NULL;
 void (*ref_difftest_setregs)(const void *c) = NULL;
 void (*ref_difftest_exec)(uint64_t n) = NULL;
 
+void isa_take_snapshot(char *filename);
+void isa_recover_snapshot(char *filename);
+
 static bool is_skip_ref = false;
 static int skip_dut_nr_instr = 0;
 static bool is_detach = false;
@@ -135,4 +138,20 @@ void difftest_attach() {
   skip_dut_nr_instr = 0;
 
   isa_difftest_attach();
+}
+
+void isa_take_snapshot(char *filename) {
+  FILE *fp;
+  fp = fopen(filename, "wb");
+  fwrite((void *)&cpu, sizeof(cpu), 1, fp);
+  fwrite(guest_to_host(0), 1, PMEM_SIZE, fp);
+  fclose(fp);
+}
+
+void isa_recover_snapshot(char *filename) {
+  FILE *fp;
+  fp = fopen(filename, "rb");
+  fread((void *)&cpu, sizeof(cpu), 1, fp);
+  fread(guest_to_host(0), 1, PMEM_SIZE, fp);
+  fclose(fp);
 }
