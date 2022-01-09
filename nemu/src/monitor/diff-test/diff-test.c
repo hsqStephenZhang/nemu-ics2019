@@ -143,15 +143,17 @@ void difftest_attach() {
 void diff_take_snapshot(char *filename) {
   FILE *fp;
   fp = fopen(filename, "wb");
-  fwrite((void *)&cpu, sizeof(cpu), 1, fp);
-  fwrite(guest_to_host(0), 1, PMEM_SIZE, fp);
+  int __unused __attribute__((unused));
+  __unused = fwrite((void *)&cpu, sizeof(cpu), 1, fp);
+  __unused = fwrite(guest_to_host(0), 1, PMEM_SIZE, fp);
   fclose(fp);
 }
 
 void diff_recover_snapshot(char *filename) {
   FILE *fp;
   fp = fopen(filename, "rb");
-  fread((void *)&cpu, sizeof(cpu), 1, fp);
-  fread(guest_to_host(0), 1, PMEM_SIZE, fp);
+  int __unused __attribute__((unused));
+  __unused = fread((void *)&cpu, sizeof(cpu), 1, fp);
+  __unused = fread(guest_to_host(0), 1, PMEM_SIZE, fp);
   fclose(fp);
 }
