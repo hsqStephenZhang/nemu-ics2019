@@ -10,6 +10,8 @@
 void cpu_exec(uint64_t);
 void isa_reg_display();
 void isa_reg_display_reg(char *);
+void diff_take_snapshot(char *filename);
+void diff_recover_snapshot(char *filename);
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char *rl_gets()
@@ -192,7 +194,7 @@ static int cmd_save(char *args) {
 		printf("Usage: save [path]\n");
 		return 0;
 	}
-	isa_take_snapshot(arg);
+	diff_take_snapshot(arg);
 	return 0;
 }
 
@@ -202,7 +204,7 @@ static int cmd_load(char *args) {
 		printf("Usage: load [path]\n");
 		return 0;
 	}
-	isa_recover_snapshot(arg);
+	diff_recover_snapshot(arg);
 	return 0;
 }
 
