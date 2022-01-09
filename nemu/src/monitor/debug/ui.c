@@ -173,6 +173,19 @@ static int cmd_scan(char *args)
   return -1;
 }
 
+static int cmd_detach(char *args) {
+	difftest_detach();
+	printf("Finish detaching.\n");
+	return 0;
+}
+
+static int cmd_attach(char *args) {
+	printf("Attaching...\n");
+	difftest_attach();
+	printf("Finish attaching.\n");
+	return 0;
+}
+
 // short name can be null, so check before used it
 static struct
 {
@@ -190,6 +203,8 @@ static struct
     {"delete", "d", "remove watchpoint", cmd_rm_wp},
     {"print", "p", "Evaluate given expression", cmd_expr},
     {"scan", "x", "scan memory", cmd_scan},
+    {"detach",NULL, "detach", cmd_detach},
+    {"attach", NULL, "attach", cmd_attach},
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
